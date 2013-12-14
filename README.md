@@ -18,12 +18,15 @@ The components will be:
 Google Now cards
 ============
 
-See http://www.google.com/landing/now/#cards
 
+See https://github.com/elsewhat/openui5-cards/tree/master/card_reference
+(from http://www.google.com/landing/now/#cards)
 
-Types of cards
+Elements of cards
 ============
 
+* Header (with colour on parts of the text)
+* ...
 
 
 Rendering
