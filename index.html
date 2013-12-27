@@ -15,7 +15,8 @@ sap.ui.core.Control.extend("open.m.Card", {
     metadata : {
         properties : {
             "title" : "string",
-            "subtitle" : "string"
+            "subtitle" : "string",
+            "address": "string",
         },
     },
 
@@ -42,7 +43,10 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.writeEscaped(oControl.getSubtitle());
         oRm.write("</h2>");
 
-        oRm.write("<div class=map></div>");
+        oRm.write("<div class=\"map\" " +
+            "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
+            + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false') \">" + 
+            "</div>");
         oRm.write("</div>");
     }
 });
@@ -87,8 +91,8 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
   </script>
 <script> 
-    var card1 = new open.m.Card("card1", {title:"Card1", subtitle:"Subtitle"});
-    var card2 = new open.m.Card("card2",{title:"Card2", subtitle:"Subtitle"});
+    var card1 = new open.m.Card("card1", {title:"Card1", subtitle:"Subtitle", address:"Midthallet 10, Stavanger"});
+    var card2 = new open.m.Card("card2",{title:"Card2", subtitle:"Subtitle", address:"SAP Palo alto"});
 
     var cardContainer = new open.m.CardContainer("myCardContainer", {
         content:[card1,card2]
