@@ -1,16 +1,21 @@
 <!DOCTYPE html>  
 <html><head>  
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />  
-    <title>Hello World</title>  
+<meta http-equiv='X-UA-Compatible' content='IE=edge' />  
+<title>Hello World</title>  
 
-    <link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
+<!--CSS required by open.m.Card-->
+<link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
 
-    <script id='sap-ui-bootstrap' 
-        src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'  
-        data-sap-ui-theme='sap_bluecrystal'  
-        data-sap-ui-libs='sap.ui.commons'></script>   
-  
-  <script type="text/javascript">
+<!--Standard sapui5 init-->
+<script id='sap-ui-bootstrap' 
+    src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'  
+    data-sap-ui-theme='sap_bluecrystal'  
+    data-sap-ui-libs='sap.ui.commons'></script>   
+
+<script type="text/javascript">
+//Component definitions in this script section
+//- open.m.Card
+//- open.m.CardContainer
 sap.ui.core.Control.extend("open.m.Card", {
     metadata : {
         properties : {
@@ -81,19 +86,26 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
         oRm.write("</main>");
     }
 });
+</script>
 
 
-
-  </script>
 <script> 
-    var card1 = new open.m.Card("card1", {title:"<strong>32 minutes</strong> to destination in Norway", subtitle:"This is the subtitle of my card1", address:"Midthallet 10, Stavanger"});
-    var card2 = new open.m.Card("card2",{title:"<strong>4 days</strong> to destination in Palo Alto", subtitle:"This is the subtitle of my card2", address:"SAP Palo alto"});
+//Example of usage of the components in this sectionß
+var card1 = new open.m.Card("card1", 
+    {title:"<strong>32 minutes</strong> to destination in Norway", 
+    subtitle:"This is the subtitle of my card1", 
+    address:"Midthallet 10, Stavanger"});
 
-    var cardContainer = new open.m.CardContainer("myCardContainer", {
-        content:[card1,card2]
-    });
+var card2 = new open.m.Card("card2",
+    {title:"<strong>4 days</strong> to destination in Palo Alto",
+    subtitle:"This is the subtitle of my card2", 
+    address:"SAP Palo alto"});
 
-    cardContainer.placeAt('content') ;
+var cardContainer = new open.m.CardContainer("myCardContainer", {
+    content:[card1,card2]
+});
+
+cardContainer.placeAt('content') ;
 </script>
 
 </head>
