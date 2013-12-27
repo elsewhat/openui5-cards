@@ -2,20 +2,54 @@
 <html><head>  
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />  
     <title>Hello World</title>  
-  
+
+    <link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
+
     <script id='sap-ui-bootstrap' 
         src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'  
         data-sap-ui-theme='sap_bluecrystal'  
         data-sap-ui-libs='sap.ui.commons'></script>   
   
+  <script type="text/javascript">
+sap.ui.core.Control.extend("open.m.Card", {
+    metadata : {
+        properties : {
+            "value" : "string"
+        },
+    },
+
+    init: function() {
+
+    },
+
+    setValue: function(sValue){
+
+    },
+    
+    renderer : function(oRm, oControl) {
+        oRm.write("<main>");
+        oRm.write("<header></header>");
+        oRm.write("<div"); 
+        oRm.writeControlData(oControl);
+        oRm.addClass("card"); 
+        oRm.writeClasses();
+        oRm.write(">");
+        oRm.write("<h1><strong>32 minutes</strong> to Consol Energy Center</h1>");
+        oRm.write("<h2>McKnight Road</h2>");
+        oRm.write("<div class=map></div>");
+        oRm.write("</div>");
+        oRm.write("</main>");
+    }
+});
+
+
+
+
+
+  </script>
 <script>  
-    var btn = new sap.ui.commons.Button({
-        text:'Press me!',
-        press: function() {
-            alert("Hello!")
-        }
-    });
-    btn.placeAt('content');  
+    var card = new open.m.Card("card1");
+    card.placeAt('content') 
 </script>
 
 </head>
