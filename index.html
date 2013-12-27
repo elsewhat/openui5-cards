@@ -3,14 +3,17 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge' />  
 <title>Hello World</title>  
 
-<!--CSS required by open.m.Card-->
-<link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
+
 
 <!--Standard sapui5 init-->
 <script id='sap-ui-bootstrap' 
     src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'  
     data-sap-ui-theme='sap_bluecrystal'  
-    data-sap-ui-libs='sap.ui.commons'></script>   
+    data-sap-ui-libs='sap.m,sap.ui.commons'></script>   
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
 
 <script type="text/javascript">
 //Component definitions in this script section
@@ -22,6 +25,9 @@ sap.ui.core.Control.extend("open.m.Card", {
             "title" : "string",
             "subtitle" : "string",
             "address": "string",
+        },
+        aggregations: {
+            actions: {type : "open.m.CardAction", multiple : true},
         },
     },
 
@@ -51,9 +57,66 @@ sap.ui.core.Control.extend("open.m.Card", {
             "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
             + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false') \">" + 
             "</div>");
+
+        var aActions = oControl.getActions();
+        for (var i = 0; i < aActions.length; i++){
+            oRm.renderControl(aActions[i]);
+        }
+
         oRm.write("</div>");
     }
 });
+
+sap.ui.core.Control.extend("open.m.CardAction", {
+    metadata : {
+        properties : {
+            "icon" : {type : "sap.ui.core.URI", group : "Appearance", defaultValue : null},
+            "actionText" : "string",
+            "displayIcon": {type : "boolean", defaultValue : false},
+        },
+        aggregations: {
+            "_actionIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"},
+            "_actionLink" : {type : "sap.m.Link", multiple : false, visibility: "hidden"}
+        },
+    },
+
+    init: function() {
+
+    },
+
+    _initSubComponents: function(){
+        this.setAggregation("_actionIcon", new sap.ui.core.Icon({
+          src:this.getIcon(),
+          color:"#4580f4",
+          size: "1.4em",
+          press: function(oEvent){
+            alert('test1');
+          }
+        }));
+        this.setAggregation("_actionLink", new sap.m.Link({
+          text: this.getActionText(),
+          press: function(oEvent){
+            alert('test2');
+          }
+        }).addStyleClass("actionLink").removeStyleClass("sapMLnk"));
+
+    },
+    
+    renderer : function(oRm, oControl) {
+        oControl._initSubComponents()
+
+        oRm.write("<div"); 
+        oRm.writeControlData(oControl);
+        oRm.addClass("card_action"); 
+        oRm.write(">");
+
+        oRm.renderControl(oControl.getAggregation("_actionIcon"));
+        oRm.renderControl(oControl.getAggregation("_actionLink"));
+
+        oRm.write("</div>");
+    },
+});
+
 
 sap.ui.core.Control.extend("open.m.CardContainer", {
     metadata : {
@@ -66,7 +129,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
     },
 
     init: function() {
-
+        jQuery.sap.require("sap.ui.core.IconPool");
     },
     
     renderer : function(oRm, oControl) {
@@ -78,9 +141,9 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
         oRm.write("<input placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />")
 
-        var aChildren = oControl.getContent();
-        for (var i = 0; i < aChildren.length; i++){
-            oRm.renderControl(aChildren[i]);
+        var aCards = oControl.getContent();
+        for (var i = 0; i < aCards.length; i++){
+            oRm.renderControl(aCards[i]);
         }
         
         oRm.write("</main>");
@@ -99,7 +162,10 @@ var card1 = new open.m.Card("card1",
 var card2 = new open.m.Card("card2",
     {title:"<strong>4 days</strong> to destination in Palo Alto",
     subtitle:"This is the subtitle of my card2", 
-    address:"SAP Palo alto"});
+    address:"SAP Palo alto",
+    actions: [new open.m.CardAction("cardaction1",{actionText:"Navigate", icon:"sap-icon://locate-me"}),
+              new open.m.CardAction("cardaction2",{actionText:"Navigate2", icon:"sap-icon://locate-me"})],
+    });
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
     content:[card1,card2]

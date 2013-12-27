@@ -122,6 +122,17 @@ h2 {
   margin:0 0 0 0;
 }
 
+.actionLink {
+  font-size:1.3rem;
+  color:#4580f4;
+  font-weight:300;
+  margin:0 0 0 0;
+}
+
+.actionLink:visited {
+  color:#4580f4;
+}
+
 .map {
   height:12rem;
   background:whitesmoke;
