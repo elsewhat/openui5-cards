@@ -24,9 +24,6 @@ sap.ui.core.Control.extend("open.m.Card", {
 
     },
 
-    setValue: function(sValue){
-
-    },
     
     renderer : function(oRm, oControl) {
         oRm.write("<div"); 
@@ -36,7 +33,9 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.write(">");
         
         oRm.write("<h1>");
-        oRm.writeEscaped(oControl.getTitle());
+        //writing unescaped in order to get emphasis included
+        //TODO: Is there a more intuitive way to define emphasis?
+        oRm.write(oControl.getTitle());
         oRm.write("</h1>");
 
         oRm.write("<h2>");
@@ -64,10 +63,6 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
     init: function() {
 
     },
-
-    setValue: function(sValue){
-
-    },
     
     renderer : function(oRm, oControl) {
         oRm.write("<main");
@@ -91,8 +86,8 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
   </script>
 <script> 
-    var card1 = new open.m.Card("card1", {title:"Card1", subtitle:"Subtitle", address:"Midthallet 10, Stavanger"});
-    var card2 = new open.m.Card("card2",{title:"Card2", subtitle:"Subtitle", address:"SAP Palo alto"});
+    var card1 = new open.m.Card("card1", {title:"<strong>32 minutes</strong> to destination in Norway", subtitle:"This is the subtitle of my card1", address:"Midthallet 10, Stavanger"});
+    var card2 = new open.m.Card("card2",{title:"<strong>4 days</strong> to destination in Palo Alto", subtitle:"This is the subtitle of my card2", address:"SAP Palo alto"});
 
     var cardContainer = new open.m.CardContainer("myCardContainer", {
         content:[card1,card2]
