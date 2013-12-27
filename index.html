@@ -27,8 +27,6 @@ sap.ui.core.Control.extend("open.m.Card", {
     },
     
     renderer : function(oRm, oControl) {
-        oRm.write("<main>");
-        oRm.write("<header></header>");
         oRm.write("<div"); 
         oRm.writeControlData(oControl);
         oRm.addClass("card"); 
@@ -38,18 +36,55 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.write("<h2>McKnight Road</h2>");
         oRm.write("<div class=map></div>");
         oRm.write("</div>");
+    }
+});
+
+sap.ui.core.Control.extend("open.m.CardContainer", {
+    metadata : {
+        properties : {
+            "value" : "string"
+        },
+        aggregations: {
+            content: {type : "open.m.Card", multiple : true},
+        },
+    },
+
+    init: function() {
+
+    },
+
+    setValue: function(sValue){
+
+    },
+    
+    renderer : function(oRm, oControl) {
+        oRm.write("<main");
+        oRm.writeControlData(oControl);
+        oRm.write(">");
+
+        oRm.write("<header></header>");
+
+        var aChildren = oControl.getContent();
+        for (var i = 0; i < aChildren.length; i++){
+            oRm.renderControl(aChildren[i]);
+        }
+        
         oRm.write("</main>");
     }
 });
 
 
 
-
-
   </script>
-<script>  
-    var card = new open.m.Card("card1");
-    card.placeAt('content') 
+<script> 
+    var card1 = new open.m.Card("card1");
+    var card2 = new open.m.Card("card2");
+
+    var cardContainer = new open.m.CardContainer("myCardContainer", {
+        content:[card1,card2]
+    });
+
+    cardContainer.placeAt('content') ;
 </script>
 
 </head>
