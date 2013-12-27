@@ -14,7 +14,8 @@
 sap.ui.core.Control.extend("open.m.Card", {
     metadata : {
         properties : {
-            "value" : "string"
+            "title" : "string",
+            "subtitle" : "string"
         },
     },
 
@@ -32,8 +33,15 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.addClass("card"); 
         oRm.writeClasses();
         oRm.write(">");
-        oRm.write("<h1><strong>32 minutes</strong> to Consol Energy Center</h1>");
-        oRm.write("<h2>McKnight Road</h2>");
+        
+        oRm.write("<h1>");
+        oRm.writeEscaped(oControl.getTitle());
+        oRm.write("</h1>");
+
+        oRm.write("<h2>");
+        oRm.writeEscaped(oControl.getSubtitle());
+        oRm.write("</h2>");
+
         oRm.write("<div class=map></div>");
         oRm.write("</div>");
     }
@@ -64,6 +72,8 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
         oRm.write("<header></header>");
 
+        oRm.write("<input placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />")
+
         var aChildren = oControl.getContent();
         for (var i = 0; i < aChildren.length; i++){
             oRm.renderControl(aChildren[i]);
@@ -77,8 +87,8 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
   </script>
 <script> 
-    var card1 = new open.m.Card("card1");
-    var card2 = new open.m.Card("card2");
+    var card1 = new open.m.Card("card1", {title:"Card1", subtitle:"Subtitle"});
+    var card2 = new open.m.Card("card2",{title:"Card2", subtitle:"Subtitle"});
 
     var cardContainer = new open.m.CardContainer("myCardContainer", {
         content:[card1,card2]
