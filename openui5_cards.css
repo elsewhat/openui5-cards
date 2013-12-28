@@ -126,11 +126,17 @@ h2 {
   font-size:1.3rem;
   color:#4580f4;
   font-weight:300;
-  margin:0 0 0 0;
+  margin:1.2rem 0 0 0;
 }
 
 .actionLink:visited {
   color:#4580f4;
+}
+
+.actionIcon {
+   margin:1rem 0.7rem 0rem 0rem; 
+}
+.actionIcon:visited {
 }
 
 .map {

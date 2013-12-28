@@ -89,11 +89,11 @@ sap.ui.core.Control.extend("open.m.CardAction", {
         this.setAggregation("_actionIcon", new sap.ui.core.Icon({
           src:this.getIcon(),
           color:"#4580f4",
-          size: "1.4em",
+          size: "1.6em",
           press: function(oEvent){
             alert('test1');
           }
-        }));
+        }).addStyleClass("actionIcon"));
         this.setAggregation("_actionLink", new sap.m.Link({
           text: this.getActionText(),
           press: function(oEvent){
@@ -112,15 +112,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
                    oControl.getAggregation("_actionLink")]
         })   
 
-        //oRm.write("<div"); 
-        //oRm.writeControlData(oControl);
-        //oRm.addClass("card_action"); 
-        //oRm.write(">");
-
         oRm.renderControl(hBoxAction);
-        //oRm.renderControl(oControl.getAggregation("_actionLink"));
-
-        //oRm.write("</div>");
     },
 });
 
@@ -171,7 +163,7 @@ var card2 = new open.m.Card("card2",
     subtitle:"This is the subtitle of my card2", 
     address:"SAP Palo alto",
     actions: [new open.m.CardAction("cardaction1",{actionText:"Navigate", icon:"sap-icon://locate-me"}),
-              new open.m.CardAction("cardaction2",{actionText:"Navigate2", icon:"sap-icon://locate-me"})],
+              new open.m.CardAction("cardaction2",{actionText:"View email", icon:"sap-icon://email"})],
     });
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
