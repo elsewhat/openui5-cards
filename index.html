@@ -58,10 +58,11 @@ sap.ui.core.Control.extend("open.m.Card", {
             + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false') \">" + 
             "</div>");
 
-        var aActions = oControl.getActions();
-        for (var i = 0; i < aActions.length; i++){
-            oRm.renderControl(aActions[i]);
-        }
+        var vBoxActions = new sap.m.VBox({
+            items:oControl.getActions()
+        })
+        
+        oRm.renderControl(vBoxActions);
 
         oRm.write("</div>");
     }
@@ -98,22 +99,28 @@ sap.ui.core.Control.extend("open.m.CardAction", {
           press: function(oEvent){
             alert('test2');
           }
-        }).addStyleClass("actionLink").removeStyleClass("sapMLnk"));
+        }).addStyleClass("actionLink"));
 
     },
     
     renderer : function(oRm, oControl) {
         oControl._initSubComponents()
 
-        oRm.write("<div"); 
-        oRm.writeControlData(oControl);
-        oRm.addClass("card_action"); 
-        oRm.write(">");
+        var hBoxAction = new sap.m.HBox({
+            fitContainer:true,
+            items:[oControl.getAggregation("_actionIcon"),
+                   oControl.getAggregation("_actionLink")]
+        })   
 
-        oRm.renderControl(oControl.getAggregation("_actionIcon"));
-        oRm.renderControl(oControl.getAggregation("_actionLink"));
+        //oRm.write("<div"); 
+        //oRm.writeControlData(oControl);
+        //oRm.addClass("card_action"); 
+        //oRm.write(">");
 
-        oRm.write("</div>");
+        oRm.renderControl(hBoxAction);
+        //oRm.renderControl(oControl.getAggregation("_actionLink"));
+
+        //oRm.write("</div>");
     },
 });
 
