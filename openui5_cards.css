@@ -139,10 +139,16 @@ h2 {
 .actionIcon:visited {
 }
 
-.map {
+.cardmap {
   height:12rem;
   background:whitesmoke;
   margin:.5rem 0 0 -1.5rem;
   width:28rem;
 
+}
+.cardimage {
+  height:6rem;
+  background:whitesmoke;
+  margin:.5rem 0 0 -1.5rem;
+  width:28rem;
 }

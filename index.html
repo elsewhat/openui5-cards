@@ -25,6 +25,7 @@ sap.ui.core.Control.extend("open.m.Card", {
             "title" : "string",
             "subtitle" : "string",
             "address": "string",
+            "image": "string",
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
@@ -53,10 +54,17 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.writeEscaped(oControl.getSubtitle());
         oRm.write("</h2>");
 
-        oRm.write("<div class=\"map\" " +
-            "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
-            + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false') \">" + 
-            "</div>");
+        if(oControl.getAddress() != null){
+            oRm.write("<div class=\"cardmap\" " +
+                "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
+                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false')  \">" + 
+                "</div>");
+        } else if (oControl.getImage() != null){
+            oRm.write("<div class=\"cardimage\" " +
+                "style=\"background: url('" 
+                + oControl.getImage()+ "');background-repeat:no-repeat;background-position:center top;\">" + 
+                "</div>");
+        }
 
         var vBoxActions = new sap.m.VBox({
             items:oControl.getActions()
@@ -160,7 +168,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 var card1 = new open.m.Card("card1", 
     {title:"<strong>32 minutes</strong> to destination in Norway", 
     subtitle:"This is the subtitle of my card1", 
-    address:"Midthallet 10, Stavanger"});
+    image:"http://sap.github.io/openui5/images/icotxt_white_220x72_blue_open.png"});
 
 var card2 = new open.m.Card("card2",
     {title:"<strong>4 days</strong> to destination in Palo Alto",
