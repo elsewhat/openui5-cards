@@ -15,6 +15,10 @@ The components are currently:
 * open.m.Card
 * open.m.CardActions
 
+CDN reference
+* http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.js
+* http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.css
+
 Ongoing tasks: 
 * See Trello task board https://trello.com/b/z64yEaCF/openui5-cards
 
