@@ -1,4 +1,7 @@
-openui5-cards Goal
+http://elsewhat.github.io/openui5-cards/ is the main site for this project
+
+
+openui5-cards
 =============
 
 The goal is to provide Google Now like cards for the OpenUI5 framework.
