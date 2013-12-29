@@ -1,9 +1,7 @@
 <!DOCTYPE html>  
 <html><head>  
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
-<title>Hello World</title>  
-
-
+<title>openui5-cards</title>  
 
 <!--Standard sapui5 init-->
 <script id="sap-ui-bootstrap" 
@@ -37,14 +35,15 @@ var card2 = new open.m.Card("card2",
                 icon:"sap-icon://locate-me"}),
               new open.m.CardAction("cardaction2",
                 {actionText:"View email", 
-                icon:"sap-icon://email"})],
+                icon:"sap-icon://email"}),
+              ],
     });
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
     content:[card1,card2]
 });
 
-cardContainer.placeAt('content') ;
+cardContainer.placeAt("content") ;
 </script>
 
 </head>
