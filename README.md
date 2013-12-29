@@ -5,15 +5,18 @@ The goal is to provide Google Now like cards for the OpenUI5 framework.
 
 The focus will be on mobile experience.
 
-Overivew
+Overview
 =============
 The OpenUI5 cards will be implemented as custom componets to OpenUI5 
 https://openui5.hana.ondemand.com/#docs/guide/OnTheFlyControlDefinition.html
 
-The components will be:
+The components are currently:
 * open.m.CardContainer
 * open.m.Card
-* Possibly subtypes of open.m.Card
+* open.m.CardActions
+
+Ongoing tasks: 
+* See Trello task board https://trello.com/b/z64yEaCF/openui5-cards
 
 Google Now cards
 ============
@@ -25,8 +28,10 @@ See https://github.com/elsewhat/openui5-cards/tree/master/card_reference
 Elements of cards
 ============
 
-* Header (with colour on parts of the text)
-* ...
+* Title
+* Subtitle
+* Address (image fetched from Google
+* open.m.CardActions [0..n]
 
 
 Rendering
