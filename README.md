@@ -7,8 +7,7 @@ The focus will be on mobile experience.
 
 Overview
 =============
-The OpenUI5 cards will be implemented as custom componets to OpenUI5 
-https://openui5.hana.ondemand.com/#docs/guide/OnTheFlyControlDefinition.html
+The openui5-cards will be implemented as custom components to OpenUI5 
 
 The components are currently:
 * open.m.CardContainer
