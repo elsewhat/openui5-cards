@@ -25,7 +25,7 @@ Google Now cards
 ============
 
 
-See https://github.com/elsewhat/openui5-cards/tree/master/card_reference
+See http://elsewhat.github.io/openui5-cards/reference/
 (from http://www.google.com/landing/now/#cards)
 
 Elements of cards
