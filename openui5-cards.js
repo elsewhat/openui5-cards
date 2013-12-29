@@ -1,24 +1,7 @@
-<!DOCTYPE html>  
-<html><head>  
-<meta http-equiv='X-UA-Compatible' content='IE=edge' />  
-<title>Hello World</title>  
-
-
-
-<!--Standard sapui5 init-->
-<script id='sap-ui-bootstrap' 
-    src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'  
-    data-sap-ui-theme='sap_bluecrystal'  
-    data-sap-ui-libs='sap.m,sap.ui.commons'></script>   
-
-<!--CSS required by open.m.Card
-Needs to be after sapui5 init in order to override styles-->
-<link href="openui5_cards.css" type="text/css" rel="stylesheet"/>
-
-<script type="text/javascript">
-//Component definitions in this script section
+//Component definitions in this .js
 //- open.m.Card
 //- open.m.CardContainer
+//- open.m.CardAction
 sap.ui.core.Control.extend("open.m.Card", {
     metadata : {
         properties : {
@@ -160,41 +143,3 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
         oRm.write("</main>");
     }
 });
-</script>
-
-
-<script> 
-//Example of usage of the components in this sectionß
-var card1 = new open.m.Card("card1", 
-    {title:"GoogleNow style cards coming to #OpenUI5", 
-    subtitle:"Thanks for open sourcing SAP", 
-    image:"http://sap.github.io/openui5/images/icotxt_white_220x72_blue_open.png"});
-
-var card2 = new open.m.Card("card2",
-    {title:"<strong>4 days</strong> to destination in Palo Alto",
-    subtitle:"This is the subtitle of my card2", 
-    address:"SAP Palo alto",
-    actions: [new open.m.CardAction("cardaction1",
-                {actionText:"Navigate", 
-                press:function(){
-                    jQuery.sap.require("sap.m.MessageToast");
-                    sap.m.MessageToast.show("Navigate action clicked");
-                },
-                icon:"sap-icon://locate-me"}),
-              new open.m.CardAction("cardaction2",
-                {actionText:"View email", 
-                icon:"sap-icon://email"})],
-    });
-
-var cardContainer = new open.m.CardContainer("myCardContainer", {
-    content:[card1,card2]
-});
-
-cardContainer.placeAt('content') ;
-</script>
-
-</head>
-<body class='sapUiBody'>
-    <div id='content'></div>
-</body>
-</html>
