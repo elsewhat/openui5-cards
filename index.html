@@ -36,29 +36,40 @@
 <p>The focus will be on mobile experience.</p>
 
 <h1>
-<a name="overivew" class="anchor" href="#overivew"><span class="octicon octicon-link"></span></a>Overivew</h1>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a>Overview</h1>
 
-<p>The OpenUI5 cards will be implemented as custom componets to OpenUI5 
-<a href="https://openui5.hana.ondemand.com/#docs/guide/OnTheFlyControlDefinition.html">https://openui5.hana.ondemand.com/#docs/guide/OnTheFlyControlDefinition.html</a></p>
+<p>The openui5-cards will be implemented as custom components to OpenUI5 </p>
 
-<p>The components will be:</p>
+<p>The components are currently:</p>
 
 <ul>
 <li>open.m.CardContainer</li>
 <li>open.m.Card</li>
-<li>Possibly subtypes of open.m.Card</li>
+<li>open.m.CardActions</li>
+</ul><p>CDN reference</p>
+
+<ul>
+<li><a href="http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.js">http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.js</a></li>
+<li><a href="http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.css">http://elsewhat.github.io/openui5-cards/cdn/0.1/openui5-cards.css</a></li>
+</ul><p>Ongoing tasks: </p>
+
+<ul>
+<li>See Trello task board <a href="https://trello.com/b/z64yEaCF/openui5-cards">https://trello.com/b/z64yEaCF/openui5-cards</a>
+</li>
 </ul><h1>
 <a name="google-now-cards" class="anchor" href="#google-now-cards"><span class="octicon octicon-link"></span></a>Google Now cards</h1>
 
-<p>See <a href="https://github.com/elsewhat/openui5-cards/tree/master/card_reference">https://github.com/elsewhat/openui5-cards/tree/master/card_reference</a>
+<p>See <a href="http://elsewhat.github.io/openui5-cards/reference/">http://elsewhat.github.io/openui5-cards/reference/</a>
 (from <a href="http://www.google.com/landing/now/#cards">http://www.google.com/landing/now/#cards</a>)</p>
 
 <h1>
 <a name="elements-of-cards" class="anchor" href="#elements-of-cards"><span class="octicon octicon-link"></span></a>Elements of cards</h1>
 
 <ul>
-<li>Header (with colour on parts of the text)</li>
-<li>...</li>
+<li>Title</li>
+<li>Subtitle</li>
+<li>Address (static map image fetched from Google Maps API based on this)</li>
+<li>open.m.CardActions [0..n]</li>
 </ul><h1>
 <a name="rendering" class="anchor" href="#rendering"><span class="octicon octicon-link"></span></a>Rendering</h1>
 
