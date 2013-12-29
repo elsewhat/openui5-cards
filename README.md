@@ -34,7 +34,7 @@ Elements of cards
 
 * Title
 * Subtitle
-* Address (image fetched from Google
+* Address (static map image fetched from Google Maps API based on this)
 * open.m.CardActions [0..n]
 
 
