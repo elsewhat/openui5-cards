@@ -27,23 +27,23 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.writeClasses();
         oRm.write(">");
         
-        oRm.write("<h1>");
+        oRm.write("<h1 class=\"cardTitle1\">");
         //writing unescaped in order to get emphasis included
         //TODO: Is there a more intuitive way to define emphasis?
         oRm.write(oControl.getTitle());
         oRm.write("</h1>");
 
-        oRm.write("<h2>");
+        oRm.write("<h2 class=\"cardTitle2\">");
         oRm.writeEscaped(oControl.getSubtitle());
         oRm.write("</h2>");
 
         if(oControl.getAddress() != null){
-            oRm.write("<div class=\"cardmap\" " +
+            oRm.write("<div class=\"cardMap\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
                 + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false')  \">" + 
                 "</div>");
         } else if (oControl.getImage() != null){
-            oRm.write("<div class=\"cardimage\" " +
+            oRm.write("<div class=\"cardImage\" " +
                 "style=\"background: url('" 
                 + oControl.getImage()+ "');background-repeat:no-repeat;background-position:center top;\">" + 
                 "</div>");
@@ -87,14 +87,14 @@ sap.ui.core.Control.extend("open.m.CardAction", {
           press: function(oEvent){
             that.firePress({});
           }
-        }).addStyleClass("actionIcon"));
+        }).addStyleClass("cardActionIcon"));
 
         this.setAggregation("_actionLink", new sap.m.Link({
           text: this.getActionText(),
           press: function(oEvent){
             that.firePress({});
           }
-        }).addStyleClass("actionLink"));
+        }).addStyleClass("cardActionLink"));
 
     },
     
@@ -127,13 +127,13 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
     },
     
     renderer : function(oRm, oControl) {
-        oRm.write("<main");
+        oRm.write("<main class=\"cardContainer\"");
         oRm.writeControlData(oControl);
         oRm.write(">");
 
-        oRm.write("<header></header>");
+        oRm.write("<header class=\"cardHeader\"></header>");
 
-        oRm.write("<input placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />")
+        oRm.write("<input class=\"cardSearch\" placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />")
 
         var aCards = oControl.getContent();
         for (var i = 0; i < aCards.length; i++){
