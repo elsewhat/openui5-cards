@@ -49,6 +49,11 @@ input.cardSearch:focus + header {
   opacity:0;
 }
 
+.cardSearchDisabled{
+  height:9.5rem;
+}
+
+
 .card {
   padding:1.5rem;
   box-shadow:0 1px 2px #aaa;

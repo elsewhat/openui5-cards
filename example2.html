@@ -1,0 +1,91 @@
+<!DOCTYPE html>  
+<html><head>  
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+<title>openui5-cards reddit</title>  
+
+<!--Standard sapui5 init-->
+<script id="sap-ui-bootstrap" 
+    src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    data-sap-ui-theme="sap_bluecrystal"
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
+<script src="openui5-cards.js"></script>
+
+<style>
+/*overwriting title size to smaller value*/
+h1.cardTitle1 {
+  font-size:1.5rem;
+}
+</style>
+
+<script> 
+var redditJsonUrl="http://www.reddit.com/.json";
+var oModel = new sap.ui.model.json.JSONModel(redditJsonUrl);
+
+ 
+var cardFactory = function(sId, oContext) { 
+    var oCard = new open.m.Card(sId)
+        .bindProperty("title", oContext.sPath+"/data/title")
+        .bindProperty("subtitle", oContext.sPath+"/data/subreddit") 
+        .bindProperty("image", oContext.sPath+"/data/thumbnail",function(aImage){
+                //only accept values starting with http
+                if(aImage!=null && aImage.toLowerCase().substring(0,4) === "http"){
+                    return aImage;
+                }else {
+                    return null;
+                }
+            }
+        ); 
+
+
+    var redditCommentLink = "http://www.reddit.com"+ oContext.getModel().getProperty(oContext.sPath+"/data/permalink");
+    var redditViewLink = oContext.getModel().getProperty(oContext.sPath+"/data/url");
+    //Add a CardAction for viewing the post if it's different than the comment link
+    //TODO: Make the title clickable instead?
+    if(!(redditViewLink === redditCommentLink)){
+        oCard.addAction(new open.m.CardAction(sId+"action2",
+                    {actionText:"View post", 
+                    press:function(){
+                        jQuery.sap.require("sap.m.MessageToast");
+                        sap.m.MessageToast.show("View link action clicked");
+                        window.location.href = redditViewLink;
+                    },
+                    icon:"sap-icon://post"}));
+    }
+
+    //Add a CardAction in order to view comments
+    var redditCommentLink = "http://reddit.com"+ oContext.getModel().getProperty(oContext.sPath+"/data/permalink");
+    oCard.addAction(new open.m.CardAction(sId+"action1",
+                {actionText:"View comments", 
+                press:function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("View comments action clicked");
+                    window.location.href = redditCommentLink;
+                },
+                icon:"sap-icon://comment"}));
+
+    return oCard;
+};
+
+var cardContainer = new open.m.CardContainer("myCardContainer", {showSearchField:false});
+cardContainer.setModel(oModel);
+cardContainer.bindAggregation("content","/data/children", cardFactory); 
+
+
+
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"Reddit OpenUI5-Cards"});
+pageContent.addContent(cardContainer);
+app.addPage(pageContent);
+</script>
+
+</head>
+<body class="sapUiBody">
+    <div id="content"></div>
+</body>
+</html>

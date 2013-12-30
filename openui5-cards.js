@@ -42,7 +42,7 @@ sap.ui.core.Control.extend("open.m.Card", {
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
                 + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false')  \">" + 
                 "</div>");
-        } else if (oControl.getImage() != null){
+        } else if (oControl.getImage() != null && oControl.getImage()!=""){
             oRm.write("<div class=\"cardImage\" " +
                 "style=\"background: url('" 
                 + oControl.getImage()+ "');background-repeat:no-repeat;background-position:center top;\">" + 
@@ -115,7 +115,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
 sap.ui.core.Control.extend("open.m.CardContainer", {
     metadata : {
         properties : {
-            "value" : "string"
+            "showSearchField" : {type : "boolean", defaultValue : true},
         },
         aggregations: {
             content: {type : "open.m.Card", multiple : true},
@@ -133,7 +133,11 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
 
         oRm.write("<header class=\"cardHeader\"></header>");
 
-        oRm.write("<input class=\"cardSearch\" placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />")
+        if(oControl.getShowSearchField()){
+            oRm.write("<input class=\"cardSearch\" placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />");
+        }else {
+           oRm.write("<div class=\"cardSearchDisabled\"/>"); 
+        }
 
         var aCards = oControl.getContent();
         for (var i = 0; i < aCards.length; i++){
