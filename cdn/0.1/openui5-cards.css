@@ -1,11 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,700,500italic,900,700italic,900italic);
 
-* { font-family: 'Roboto', sans-serif; line-height:1.2;}
-
-body { background:#222;  }
-
-
-main {
+main.cardContainer {
   display:block;
   position:relative;
   width:30rem;
@@ -19,11 +14,8 @@ main {
   transform-origin:center 3rem;
   transition:transform .3s;
 }
-body:hover main {
-  transform:scale(1);
-}
 
-header {
+header.cardHeader {
   position:absolute;
   z-index:0;
   top:0; left:0; right:0;
@@ -33,11 +25,9 @@ header {
   background-size:cover;
 }
 
-input, .card {
+input.cardSearch {
   position:relative;
   z-index:2;
-}
-input {
   display:block;
   width:26rem;
   margin:4.5rem 1rem 2rem;
@@ -49,15 +39,20 @@ input {
   transition:.5s, margin-bottom .15s;
 }
 
-input:focus {
+input.cardSearch:focus {
   margin:0 1rem 1rem;
   outline:0;
 }
 
-input:focus + header {
+input.cardSearch:focus + header {
   transform:translate3d(0,-10rem,0);
   opacity:0;
 }
+
+.cardSearchDisabled{
+  height:9.5rem;
+}
+
 
 .card {
   padding:1.5rem;
@@ -68,6 +63,8 @@ input:focus + header {
   user-select:none;
   animation:fly-in-from-left .5s 1s ease both;
   transform-origin:top left;
+  position:relative;
+  z-index:2;
 }
 .card:nth-child(even){
   animation-name:fly-in-from-right;
@@ -104,49 +101,54 @@ input:focus + header {
   pointer-events:none;
 }
 
-h1 {
+h1.cardTitle1 {
   font-size:2rem;
   font-weight:200;
   margin:0 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+  line-height:1.2;
 }
-  strong {
+strong {
     font-weight:300;
     color:#539D00;
-  }
+}
 
-h2 {
+h2.cardTitle2 {
   font-size:.9rem;
   line-height:2.5;
   color:gray;
   font-weight:400;
   margin:0 0 0 0;
+  font-family: 'Roboto', sans-serif; 
 }
 
-.actionLink {
+.cardActionLink {
   font-size:1.3rem;
   color:#4580f4;
   font-weight:300;
   margin:1.2rem 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+  line-height:1.2;
 }
 
-.actionLink:visited {
+.cardActionLink:visited {
   color:#4580f4;
 }
 
-.actionIcon {
+.cardActionIcon {
    margin:1rem 0.7rem 0rem 0rem; 
 }
-.actionIcon:visited {
+.cardActionIcon:visited {
 }
 
-.cardmap {
+.cardMap {
   height:12rem;
   background:whitesmoke;
   margin:.5rem 0 0 -1.5rem;
   width:28rem;
 
 }
-.cardimage {
+.cardImage {
   height:6rem;
   background:whitesmoke;
   margin:.5rem 0 0 -1.5rem;
