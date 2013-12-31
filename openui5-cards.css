@@ -3,8 +3,6 @@
 main.cardContainer {
   display:block;
   position:relative;
-  width:30rem;
-  margin:3vh auto;
   padding:1.5rem 0 0;
   background:#d5d5d5;
   outline
@@ -29,7 +27,7 @@ input.cardSearch {
   position:relative;
   z-index:2;
   display:block;
-  width:26rem;
+  width:83vw;
   margin:4.5rem 1rem 2rem;
   border:0;
   font-size:1.2rem;
@@ -40,12 +38,10 @@ input.cardSearch {
 }
 
 input.cardSearch:focus {
-  margin:0 1rem 1rem;
   outline:0;
 }
 
 input.cardSearch:focus + header {
-  transform:translate3d(0,-10rem,0);
   opacity:0;
 }
 
@@ -144,13 +140,10 @@ h2.cardTitle2 {
 .cardMap {
   height:12rem;
   background:whitesmoke;
-  margin:.5rem 0 0 -1.5rem;
-  width:28rem;
-
+  margin:.5rem -1.5rem 0 -1.5rem;
 }
 .cardImage {
   height:6rem;
   background:whitesmoke;
   margin:.5rem 0 0 -1.5rem;
-  width:28rem;
 }
