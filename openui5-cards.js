@@ -40,12 +40,14 @@ sap.ui.core.Control.extend("open.m.Card", {
         if(oControl.getAddress() != null){
             oRm.write("<div class=\"cardMap\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
-                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false')  \">" + 
+                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false');"
+                + "background-repeat:no-repeat;background-position:0 top;background-size:cover\">" + 
                 "</div>");
         } else if (oControl.getImage() != null && oControl.getImage()!=""){
             oRm.write("<div class=\"cardImage\" " +
                 "style=\"background: url('" 
-                + oControl.getImage()+ "');background-repeat:no-repeat;background-position:center top;\">" + 
+                + oControl.getImage()+ "');"
+                + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
         }
 

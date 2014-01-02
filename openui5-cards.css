@@ -142,10 +142,10 @@ h2.cardTitle2 {
 .cardMap {
   height:12rem;
   background:whitesmoke;
-  margin:.5rem -1.5rem 0 -1.5rem;
+  margin:0 -1.5rem 0 -1.5rem;
 }
 .cardImage {
-  height:6rem;
+  height:12rem;
   background:whitesmoke;
-  margin:.5rem 0 0 -1.5rem;
+  margin:0 -1.5rem 0 -1.5rem;
 }
