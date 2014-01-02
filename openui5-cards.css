@@ -8,6 +8,8 @@ main.cardContainer {
   outline
   border-radius:.25rem;
   overflow:hidden;
+  max-width:27em;
+  margin:0px auto;
   transform:scale(.75);
   transform-origin:center 3rem;
   transition:transform .3s;
