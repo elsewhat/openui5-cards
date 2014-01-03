@@ -13,7 +13,8 @@ sap.ui.core.Control.extend("open.m.Card", {
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
             menu: {type: "sap.m.ActionSheet", multiple:false},
-            "_menuIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"}
+            "_menuIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"},
+            "_actionsVBox" : {type : "sap.m.VBox", multiple : false, visibility: "hidden"},
         },
     },
 
@@ -21,28 +22,43 @@ sap.ui.core.Control.extend("open.m.Card", {
 
     },
 
-    _initSubComponents: function(){
-        //need to create this subcomponent only once
-        var that=this;
-        if(this.getAggregation("_menuIcon")==null){
-            this.setAggregation("_menuIcon", new sap.ui.core.Icon({
+    _initSubComponents: function(oControl){
+        //need to create the subcomponents only once normally
+        //TODO: This method does not handle dynamical changes after initial rendering well
+        var that=oControl;
+
+        //Menu 
+        if(oControl.getMenu()!=null && oControl.getAggregation("_menuIcon")==null){
+            oControl.setAggregation("_menuIcon", new sap.ui.core.Icon({
                   src:"sap-icon://menu",
                   color:"#bababa",
                   size: "1.6em",
                   press: function(oEvent){
                     var menu = that.getMenu();
-                    //weird menu is deleted after usage. Let's clone it
+                    //weird... menu is deleted after usage. Let's clone it
                     var clonedMenu = menu.clone();
                     menu.openBy(oEvent.getSource());
+
                     that.setMenu(clonedMenu);
                   }
                 }).addStyleClass("cardMenuIcon"));
         }
+
+        if(oControl.getActions()!= null && oControl.getActions().length!=0){
+            //Note that this moves the actions objects from the main Cards control to
+            //the sub-control: This means that on subsequent request this code is not executed 
+            //Not sure on the best way how to keep them in sync (and don't want the users to provide a VBox as input)
+            oControl.setAggregation("_actionsVBox",vBoxActions = new sap.m.VBox({
+                items:oControl.getActions()
+            }));
+            
+        }
+
     },
     
 
     renderer : function(oRm, oControl) {
-        oControl._initSubComponents();
+        oControl._initSubComponents(oControl);
 
         oRm.write("<div"); 
         oRm.writeControlData(oControl);
@@ -50,8 +66,7 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.writeClasses();
         oRm.write(">");
 
-        if(oControl.getMenu()!=null){
-
+        if(oControl.getAggregation("_menuIcon")!=null){
             oRm.renderControl(oControl.getAggregation("_menuIcon"));
         }
         
@@ -78,13 +93,9 @@ sap.ui.core.Control.extend("open.m.Card", {
                 + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
         }
-
-        if(oControl.getActions()!= null && oControl.getActions().length!=0){
-            var vBoxActions = new sap.m.VBox({
-                items:oControl.getActions()
-            })
-            
-            oRm.renderControl(vBoxActions);
+        
+        if(oControl.getAggregation("_actionsVBox")!=null){
+            oRm.renderControl(oControl.getAggregation("_actionsVBox"));
         }
 
         oRm.write("</div>");
