@@ -12,6 +12,8 @@ sap.ui.core.Control.extend("open.m.Card", {
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
+            menu: {type: "sap.m.ActionSheet", multiple:false},
+            "_menuIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"}
         },
     },
 
@@ -19,13 +21,39 @@ sap.ui.core.Control.extend("open.m.Card", {
 
     },
 
+    _initSubComponents: function(){
+        //need to create this subcomponent only once
+        var that=this;
+        if(this.getAggregation("_menuIcon")==null){
+            this.setAggregation("_menuIcon", new sap.ui.core.Icon({
+                  src:"sap-icon://menu",
+                  color:"#bababa",
+                  size: "1.6em",
+                  press: function(oEvent){
+                    var menu = that.getMenu();
+                    //weird menu is deleted after usage. Let's clone it
+                    var clonedMenu = menu.clone();
+                    menu.openBy(oEvent.getSource());
+                    that.setMenu(clonedMenu);
+                  }
+                }).addStyleClass("cardMenuIcon"));
+        }
+    },
     
+
     renderer : function(oRm, oControl) {
+        oControl._initSubComponents();
+
         oRm.write("<div"); 
         oRm.writeControlData(oControl);
         oRm.addClass("card"); 
         oRm.writeClasses();
         oRm.write(">");
+
+        if(oControl.getMenu()!=null){
+
+            oRm.renderControl(oControl.getAggregation("_menuIcon"));
+        }
         
         oRm.write("<h1 class=\"cardTitle1\">");
         //writing unescaped in order to get emphasis included
@@ -40,20 +68,24 @@ sap.ui.core.Control.extend("open.m.Card", {
         if(oControl.getAddress() != null){
             oRm.write("<div class=\"cardMap\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
-                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false')  \">" + 
+                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false');"
+                + "background-repeat:no-repeat;background-position:0 top;background-size:cover\">" + 
                 "</div>");
         } else if (oControl.getImage() != null && oControl.getImage()!=""){
             oRm.write("<div class=\"cardImage\" " +
                 "style=\"background: url('" 
-                + oControl.getImage()+ "');background-repeat:no-repeat;background-position:center top;\">" + 
+                + oControl.getImage()+ "');"
+                + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
         }
 
-        var vBoxActions = new sap.m.VBox({
-            items:oControl.getActions()
-        })
-        
-        oRm.renderControl(vBoxActions);
+        if(oControl.getActions()!= null && oControl.getActions().length!=0){
+            var vBoxActions = new sap.m.VBox({
+                items:oControl.getActions()
+            })
+            
+            oRm.renderControl(vBoxActions);
+        }
 
         oRm.write("</div>");
     }
@@ -99,7 +131,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
     },
     
     renderer : function(oRm, oControl) {
-        oControl._initSubComponents()
+        oControl._initSubComponents();
 
         var hBoxAction = new sap.m.HBox({
             fitContainer:true,

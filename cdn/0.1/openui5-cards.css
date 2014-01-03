@@ -3,13 +3,13 @@
 main.cardContainer {
   display:block;
   position:relative;
-  width:30rem;
-  margin:3vh auto;
   padding:1.5rem 0 0;
   background:#d5d5d5;
   outline
   border-radius:.25rem;
   overflow:hidden;
+  max-width:27em;
+  margin:0px auto;
   transform:scale(.75);
   transform-origin:center 3rem;
   transition:transform .3s;
@@ -29,7 +29,7 @@ input.cardSearch {
   position:relative;
   z-index:2;
   display:block;
-  width:26rem;
+  width:83vw;
   margin:4.5rem 1rem 2rem;
   border:0;
   font-size:1.2rem;
@@ -40,12 +40,10 @@ input.cardSearch {
 }
 
 input.cardSearch:focus {
-  margin:0 1rem 1rem;
   outline:0;
 }
 
 input.cardSearch:focus + header {
-  transform:translate3d(0,-10rem,0);
   opacity:0;
 }
 
@@ -86,20 +84,6 @@ input.cardSearch:focus + header {
   }
 }
 
-.card:after {
-  position:absolute;
-  font-size:.9rem;
-  top:1.5rem;
-  right:1rem;
-  content:"i";
-  border:thin solid gray;
-  color:gray;
-  width:1rem;
-  line-height:1rem;
-  text-align:center;
-  border-radius:50%;
-  pointer-events:none;
-}
 
 h1.cardTitle1 {
   font-size:2rem;
@@ -116,7 +100,7 @@ strong {
 h2.cardTitle2 {
   font-size:.9rem;
   line-height:2.5;
-  color:gray;
+  color:#8c8c8c;
   font-weight:400;
   margin:0 0 0 0;
   font-family: 'Roboto', sans-serif; 
@@ -141,16 +125,31 @@ h2.cardTitle2 {
 .cardActionIcon:visited {
 }
 
+.cardMenuIcon {
+   position:absolute;
+   top: 0.5em;
+   right: 0.3em;
+   width:0.3em;
+   overflow:hidden;
+   color:gray;
+}
+
+.cardMenuIcon:visited {
+   position:absolute;
+   top: 0.5em;
+   right: 0.3em;
+   width:0.3em;
+   overflow:hidden;
+   color:gray;
+}
+
 .cardMap {
   height:12rem;
   background:whitesmoke;
-  margin:.5rem 0 0 -1.5rem;
-  width:28rem;
-
+  margin:0 -1.5rem 0 -1.5rem;
 }
 .cardImage {
-  height:6rem;
+  height:12rem;
   background:whitesmoke;
-  margin:.5rem 0 0 -1.5rem;
-  width:28rem;
+  margin:0 -1.5rem 0 -1.5rem;
 }
