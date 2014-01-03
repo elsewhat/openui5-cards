@@ -7,7 +7,8 @@
 <script id="sap-ui-bootstrap" 
     src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
     data-sap-ui-theme="sap_bluecrystal"
-    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+    data-sap-ui-libs="sap.m,sap.ui.commons"
+    sap-ui-debug="true"></script> 
 
 <!--CSS required by open.m.Card
 Needs to be after sapui5 init in order to override styles-->
@@ -42,6 +43,21 @@ var card2 = new open.m.Card("card2",
                 {actionText:"View email", 
                 icon:"sap-icon://email"}),
               ],
+    menu: new sap.m.ActionSheet("menu1",{
+        title: "Choose Your Action",
+        showCancelButton: false,
+        placement: sap.m.PlacementType.Bottom,
+        buttons: [
+            new sap.m.Button({
+            icon: "sap-icon://decline",
+            text: "Reject"
+            }),
+            new sap.m.Button({
+            icon: "sap-icon://accept",
+            text: "Accept"
+            }),
+        ]
+        }),
     });
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
