@@ -25,25 +25,34 @@ header.cardHeader {
   background-size:cover;
 }
 
-input.cardSearch {
+.cardSearch  {
+  margin:0em 0em 6.5em 0em;
+}
+
+.cardSearch > input  {
   position:relative;
   z-index:2;
   display:block;
-  width:83vw;
-  margin:4.5rem 1rem 2rem;
+  margin:0em 0em 5.5em 1em;
   border:0;
-  font-size:1.2rem;
-  padding:.75rem 1rem;
+  font-family: 'Roboto', sans-serif;
+  line-height:1.2;
+  font-size:1.2em;
   border-radius:3px;
   box-shadow:0 1px 2px #aaa;
   transition:.5s, margin-bottom .15s;
 }
 
-input.cardSearch:focus {
+/*Believe me, these we hard to overwrite*/
+.cardSearch > input::-webkit-input-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+.cardSearch > input:-moz-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+.cardSearch > input:-ms-input-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+
+.cardSearch:focus {
   outline:0;
 }
 
-input.cardSearch:focus + header {
+.cardSearch:focus + header {
   opacity:0;
 }
 

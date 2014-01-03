@@ -7,8 +7,7 @@
 <script id="sap-ui-bootstrap" 
     src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
     data-sap-ui-theme="sap_bluecrystal"
-    data-sap-ui-libs="sap.m,sap.ui.commons"
-    sap-ui-debug="true"></script> 
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
 
 <!--CSS required by open.m.Card
 Needs to be after sapui5 init in order to override styles-->
@@ -61,11 +60,22 @@ var card2 = new open.m.Card("card2",
     });
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
-    content:[card1,card2]
+    searchLiveChange:function(oEvent){
+        //strange. why do we need two getParameters?
+        $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
+        $('.sapMInputBaseInner').attr('x-webkit-speech', ''); 
+    },
+    content:[card1,card2],
 });
 
 pageContent.addContent(cardContainer);
 app.addPage(pageContent);
+
+//ugly hack to get voice search 
+//Believe I need to create my own subclass of sap.m.Input to avoid it 
+$(document).ready(function() {
+    $(".cardSearch > input").attr("x-webkit-speech", ""); 
+})
 </script>
 
 </head>
