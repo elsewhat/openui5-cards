@@ -67,6 +67,24 @@ var cardFactory = function(sId, oContext) {
                 },
                 icon:"sap-icon://comment"}));
 
+
+    //add menu
+    oCard.setMenu(new sap.m.ActionSheet(sId+"menu1",{
+        title: "Options",
+        showCancelButton: false,
+        placement: sap.m.PlacementType.Bottom,
+        buttons: [
+            new sap.m.Button({
+            icon: "sap-icon://arrow-top",
+            text: "Upvote"
+            }),
+            new sap.m.Button({
+            icon: "sap-icon://arrow-bottom",
+            text: "Downvote"
+            }),
+        ]
+        }));
+
     return oCard;
 };
 
