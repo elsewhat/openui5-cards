@@ -75,12 +75,20 @@ var cardFactory = function(sId, oContext) {
         placement: sap.m.PlacementType.Bottom,
         buttons: [
             new sap.m.Button({
-            icon: "sap-icon://arrow-top",
-            text: "Upvote"
+                icon: "sap-icon://arrow-top",
+                text: "Upvote",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
             }),
             new sap.m.Button({
-            icon: "sap-icon://arrow-bottom",
-            text: "Downvote"
+                icon: "sap-icon://arrow-bottom",
+                text: "Downvote",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
             }),
         ]
         }));

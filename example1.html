@@ -48,12 +48,20 @@ var card2 = new open.m.Card("card2",
         placement: sap.m.PlacementType.Bottom,
         buttons: [
             new sap.m.Button({
-            icon: "sap-icon://decline",
-            text: "Reject"
+                icon: "sap-icon://decline",
+                text: "Reject",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }                
             }),
             new sap.m.Button({
-            icon: "sap-icon://accept",
-            text: "Accept"
+                icon: "sap-icon://accept",
+                text: "Accept",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
             }),
         ]
         }),

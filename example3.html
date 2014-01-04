@@ -87,7 +87,11 @@ var cardFactory = function(sId, oContext) {
         buttons: [
             new sap.m.Button({
                 icon: "sap-icon://arrow-top",
-                text: "+1"
+                text: "+1",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
             }),
         ]
         }));
