@@ -37,12 +37,18 @@ var cardFactory = function(sId, oContext) {
                 }else {
                     return null;
                 }
-                //use fullImage.url for complete image
             }
         ); 
 
     var viewLink = oContext.getModel().getProperty(oContext.sPath+"/url");
+    
+    var fullImageLink = null;
+    var postAttachments = oContext.getModel().getProperty(oContext.sPath+"/object/attachments");
+    if(postAttachments!= null && postAttachments.length>=1){
+        fullImageLink= postAttachments[0].fullImage.url;
+    }
 
+    //Action for navigating to G+ post
     oCard.addAction(new open.m.CardAction(sId+"action1",
                 {actionText:"View post", 
                 press:function(){
@@ -51,7 +57,28 @@ var cardFactory = function(sId, oContext) {
                     window.location.href = viewLink;
                 },
                 icon:"sap-icon://post"}));
-
+    //Action for viewing full image
+    if(fullImageLink!=null){
+        oCard.addAction(new open.m.CardAction(sId+"action2",
+                    {actionText:"View image", 
+                    press:function(){
+                        var imageDialog = new sap.m.Dialog({
+                            title: "Photo",
+                            content: new sap.m.Image({
+                                src: fullImageLink,
+                                width: "22em"
+                            }),
+                            leftButton: new sap.m.Button({
+                                text: "Ok",
+                                press: function () {
+                                    imageDialog.close();
+                                }
+                            })
+                        }).addStyleClass("sapUiPopupWithPadding");
+                        imageDialog.open();
+                    },
+                    icon:"sap-icon://post"}));
+    }
     //add menu
     oCard.setMenu(new sap.m.ActionSheet(sId+"menu1",{
         title: "Options",
@@ -59,8 +86,8 @@ var cardFactory = function(sId, oContext) {
         placement: sap.m.PlacementType.Bottom,
         buttons: [
             new sap.m.Button({
-            icon: "sap-icon://arrow-top",
-            text: "+1"
+                icon: "sap-icon://arrow-top",
+                text: "+1"
             }),
         ]
         }));
