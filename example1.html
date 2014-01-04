@@ -63,7 +63,6 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
     searchLiveChange:function(oEvent){
         //strange. why do we need two getParameters?
         $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
-        $('.sapMInputBaseInner').attr('x-webkit-speech', ''); 
     },
     content:[card1,card2],
 });
