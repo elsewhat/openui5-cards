@@ -1,0 +1,89 @@
+<!DOCTYPE html>  
+<html><head>  
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+<title>openui5-cards Google+</title>  
+
+<!--Standard sapui5 init-->
+<script id="sap-ui-bootstrap" 
+    src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    data-sap-ui-theme="sap_bluecrystal"
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
+<script src="openui5-cards.js"></script>
+
+<style>
+/*overwriting title size to smaller value*/
+h1.cardTitle1 {
+  font-size:1.5rem;
+}
+</style>
+
+<script> 
+var googlePlusUrl="https://www.googleapis.com/plus/v1/people/111622544588609267059/activities/public?key=AIzaSyD5ICveYtey_w-L4I7AiF_1MQEDFJHPwDo";
+var oModel = new sap.ui.model.json.JSONModel(googlePlusUrl);
+
+ 
+var cardFactory = function(sId, oContext) { 
+    var oCard = new open.m.Card(sId)
+        .bindProperty("title", oContext.sPath+"/title")
+        .bindProperty("subtitle", oContext.sPath+"/actor/displayName")
+        .bindProperty("image", oContext.sPath+"/object/attachments",function(postAttachments){
+                //surely there is a better way of handling bindings like this one
+                if(postAttachments!= null && postAttachments.length>=1){
+                    return postAttachments[0].image.url;
+                }else {
+                    return null;
+                }
+                //use fullImage.url for complete image
+            }
+        ); 
+
+    var viewLink = oContext.getModel().getProperty(oContext.sPath+"/url");
+
+    oCard.addAction(new open.m.CardAction(sId+"action1",
+                {actionText:"View post", 
+                press:function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("View link action clicked");
+                    window.location.href = viewLink;
+                },
+                icon:"sap-icon://post"}));
+
+    //add menu
+    oCard.setMenu(new sap.m.ActionSheet(sId+"menu1",{
+        title: "Options",
+        showCancelButton: false,
+        placement: sap.m.PlacementType.Bottom,
+        buttons: [
+            new sap.m.Button({
+            icon: "sap-icon://arrow-top",
+            text: "+1"
+            }),
+        ]
+        }));
+
+    return oCard;
+};
+
+var cardContainer = new open.m.CardContainer("myCardContainer", {showSearchField:false});
+cardContainer.setModel(oModel);
+cardContainer.bindAggregation("content","/items", cardFactory); 
+
+
+
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards"});
+pageContent.addContent(cardContainer);
+app.addPage(pageContent);
+</script>
+
+</head>
+<body class="sapUiBody">
+    <div id="content"></div>
+</body>
+</html>
