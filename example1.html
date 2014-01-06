@@ -21,7 +21,11 @@ app.placeAt("content");
 
 var pageContent = new sap.m.Page("openui5-cards",{title:"OpenUI5-Cards"});
 
-//Example of usage of the components in this sectionß
+//Example of usage of the components in this section
+var headerCard = new open.m.Card("initialCard",
+            {title:"<strong>About</strong>",
+            subtitle:"Demonstrates simple usage of statically defined cards (through javascript)",})
+
 var card1 = new open.m.Card("card1", 
     {title:"GoogleNow style cards coming to #OpenUI5", 
     subtitle:"Thanks for open sourcing SAP", 
@@ -72,7 +76,8 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
         //strange. why do we need two getParameters?
         $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
     },
-    content:[card1,card2],
+    headerCard:headerCard,
+    cards:[card1,card2]
 });
 
 pageContent.addContent(cardContainer);

@@ -159,12 +159,14 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
     metadata : {
         properties : {
             "showSearchField" : {type : "boolean", defaultValue : true},
-            "SearchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
+            "searchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
+            "minHeight" : "string",
         },events: {
             "searchLiveChange": {}
         },
         aggregations: {
-            content: {type : "open.m.Card", multiple : true},
+            cards: {type : "open.m.Card", multiple : true},
+            headerCard: {type : "open.m.Card", multiple : false},
             "_searchField" : {type : "sap.m.Input", multiple : false, visibility: "hidden"}
         }
     },
@@ -194,6 +196,9 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
         oControl._initSubComponents(oControl);
         oRm.write("<main class=\"cardContainer\"");
         oRm.writeControlData(oControl);
+        if(oControl.getMinHeight()!=null){
+            oRm.write(" style=\"min-height:" + oControl.getMinHeight()+"\" ");
+        }
         oRm.write(">");
 
         oRm.write("<header class=\"cardHeader\"></header>");
@@ -205,7 +210,10 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
            oRm.write("<div class=\"cardSearchDisabled\"/>"); 
         }
 
-        var aCards = oControl.getContent();
+        if(oControl.getHeaderCard()!=null){
+            oRm.renderControl(oControl.getHeaderCard());
+        }
+        var aCards = oControl.getCards();
         for (var i = 0; i < aCards.length; i++){
             oRm.renderControl(aCards[i]);
         }

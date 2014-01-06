@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html><head>  
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
-<title>openui5-cards Google+</title>  
+<title>openui5-cards Search</title>  
 
 <!--Standard sapui5 init-->
 <script id="sap-ui-bootstrap" 
@@ -22,8 +22,7 @@ h1.cardTitle1 {
 </style>
 
 <script> 
-var googlePlusUrl="https://www.googleapis.com/plus/v1/people/111622544588609267059/activities/public?key=AIzaSyD5ICveYtey_w-L4I7AiF_1MQEDFJHPwDo&maxResults=100";
-var oModel = new sap.ui.model.json.JSONModel(googlePlusUrl);
+var oModel = new sap.ui.model.json.JSONModel();
 
  
 var cardFactory = function(sId, oContext) { 
@@ -48,37 +47,7 @@ var cardFactory = function(sId, oContext) {
         fullImageLink= postAttachments[0].fullImage.url;
     }
 
-    //Action for navigating to G+ post
-    oCard.addAction(new open.m.CardAction(sId+"action1",
-                {actionText:"View post", 
-                press:function(){
-                    jQuery.sap.require("sap.m.MessageToast");
-                    sap.m.MessageToast.show("View link action clicked");
-                    window.location.href = viewLink;
-                },
-                icon:"sap-icon://post"}));
-    //Action for viewing full image
-    if(fullImageLink!=null){
-        oCard.addAction(new open.m.CardAction(sId+"action2",
-                    {actionText:"View image", 
-                    press:function(){
-                        var imageDialog = new sap.m.Dialog({
-                            title: "Photo",
-                            content: new sap.m.Image({
-                                src: fullImageLink,
-                                width: "22em"
-                            }),
-                            leftButton: new sap.m.Button({
-                                text: "Ok",
-                                press: function () {
-                                    imageDialog.close();
-                                }
-                            })
-                        }).addStyleClass("sapUiPopupWithPadding");
-                        imageDialog.open();
-                    },
-                    icon:"sap-icon://post"}));
-    }
+
     //add menu
     oCard.setMenu(new sap.m.ActionSheet(sId+"menu1",{
         title: "Options",
@@ -101,24 +70,45 @@ var cardFactory = function(sId, oContext) {
 
 var headerCard = new open.m.Card("initialCard",
             {title:"<strong>About</strong>",
-            subtitle:"Demonstrates binding to a dynamic JSONModel (from Google+)",})
+            subtitle:"Demonstrates binding to a dynamic JSONModel based on queries (to Google Places API)",})
 
 
-var cardContainer = new open.m.CardContainer("myCardContainer", 
-    {   showSearchField:false,
+var cardContainer = new open.m.CardContainer("myCardContainer", {
+        showSearchField:true,
+        SearchFieldPlaceHolderText:"Please search for places nearby",
+        minHeight:"40em",
+        searchLiveChange:function(oEvent){
+            //strange. why do we need two getParameters?
+            $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
+        },
         headerCard:headerCard,
-    });
+});
+
 cardContainer.setModel(oModel);
-cardContainer.bindAggregation("cards","/items", cardFactory); 
+//cardContainer.bindAggregation("content","/items", cardFactory); 
+
+if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+        $.sap.log.error("LAT:"+position.coords.latitude + " LON:"+position.coords.longitude);
+
+    }
+        );
+}
 
 
 
 var app = new sap.m.App({initialPage:"openui5-cards"});
 app.placeAt("content");
 
-var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards"});
+var pageContent = new sap.m.Page("openui5-cards",{title:"GooglePlaces OpenUI5-Cards"});
 pageContent.addContent(cardContainer);
 app.addPage(pageContent);
+
+//ugly hack to get voice search 
+//Believe I need to create my own subclass of sap.m.Input to avoid it 
+$(document).ready(function() {
+    $(".cardSearch > input").attr("x-webkit-speech", ""); 
+})
 </script>
 
 </head>

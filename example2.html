@@ -96,9 +96,17 @@ var cardFactory = function(sId, oContext) {
     return oCard;
 };
 
-var cardContainer = new open.m.CardContainer("myCardContainer", {showSearchField:false});
+var headerCard = new open.m.Card("initialCard",
+            {title:"<strong>About</strong>",
+            subtitle:"Demonstrates binding to a dynamic JSONModel (from Reddit)",})
+
+
+var cardContainer = new open.m.CardContainer("myCardContainer", 
+    {   showSearchField:false,
+        headerCard:headerCard,
+    });
 cardContainer.setModel(oModel);
-cardContainer.bindAggregation("content","/data/children", cardFactory); 
+cardContainer.bindAggregation("cards","/data/children", cardFactory); 
 
 
 
