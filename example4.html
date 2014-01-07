@@ -14,6 +14,8 @@ Needs to be after sapui5 init in order to override styles-->
 <link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
 <script src="openui5-cards.js"></script>
 
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+
 <style>
 /*overwriting title size to smaller value*/
 h1.cardTitle1 {
@@ -22,30 +24,26 @@ h1.cardTitle1 {
 </style>
 
 <script> 
+//Get location of user
+var position = null;
+if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(aPosition){
+        position=aPosition;
+        jQuery.sap.require("sap.m.MessageToast");
+        sap.m.MessageToast.show("Your location has been determined. Now the search will work");
+        $.sap.log.error("LAT:"+position.coords.latitude + " LON:"+position.coords.longitude);
+    });
+}
+
+//Model will be populated after each executed search
 var oModel = new sap.ui.model.json.JSONModel();
 
- 
+//CardFactory is used to create a single card based on a JSON subset from the search  
 var cardFactory = function(sId, oContext) { 
     var oCard = new open.m.Card(sId)
-        .bindProperty("title", oContext.sPath+"/title")
-        .bindProperty("subtitle", oContext.sPath+"/actor/displayName")
-        .bindProperty("image", oContext.sPath+"/object/attachments",function(postAttachments){
-                //surely there is a better way of handling bindings like this one
-                if(postAttachments!= null && postAttachments.length>=1){
-                    return postAttachments[0].image.url;
-                }else {
-                    return null;
-                }
-            }
-        ); 
-
-    var viewLink = oContext.getModel().getProperty(oContext.sPath+"/url");
-    
-    var fullImageLink = null;
-    var postAttachments = oContext.getModel().getProperty(oContext.sPath+"/object/attachments");
-    if(postAttachments!= null && postAttachments.length>=1){
-        fullImageLink= postAttachments[0].fullImage.url;
-    }
+        .bindProperty("title", oContext.sPath+"/name")
+        .bindProperty("subtitle", oContext.sPath+"/vicinity")
+        .bindProperty("address", oContext.sPath+"/vicinity");
 
 
     //add menu
@@ -68,9 +66,10 @@ var cardFactory = function(sId, oContext) {
     return oCard;
 };
 
+//headerCard is always displayed first
 var headerCard = new open.m.Card("initialCard",
             {title:"<strong>About</strong>",
-            subtitle:"Demonstrates binding to a dynamic JSONModel based on queries (to Google Places API)",})
+            subtitle:"Demonstrates binding to a dynamic JSONModel based on queries (to Google Places API). Usage: Try search for pizza",})
 
 
 var cardContainer = new open.m.CardContainer("myCardContainer", {
@@ -78,23 +77,54 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
         SearchFieldPlaceHolderText:"Please search for places nearby",
         minHeight:"40em",
         searchLiveChange:function(oEvent){
+            //Handle the search. Called once for each letter
             //strange. why do we need two getParameters?
-            $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
+            var searchQuery = oEvent.getParameters().getParameters().newValue;
+            $.sap.log.error("Search field live change:" +searchQuery);
+            if(searchQuery!=null && searchQuery.length>=4){
+                if(position==null){
+                    cardContainer.setHeaderCard(new open.m.Card(
+                            {title:"<strong>Error</strong>",
+                            subtitle:"Your location is not found. Accept the request for location determination and try again",})
+                    );
+                    return;
+                }
+
+                //Perform the search and update the model accordingly
+                var myLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+
+                var request = {
+                    location: myLocation,
+                    radius: '5000',
+                    keyword: searchQuery
+                };
+
+                var mapsService = new google.maps.places.PlacesService(document.getElementById("mapsAttribution"));
+                cardContainer.setHeaderCard(null);
+                oModel.setData(null);
+
+                //Perform the search
+                mapsService.nearbySearch(request, function (results,status){
+                    $.sap.log.error(status+ " "+ results);
+                    
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        //model will trigger update of view automatically
+                        oModel.setData(results);
+                    }else {
+                        cardContainer.setHeaderCard(new open.m.Card(
+                            {title:"<strong>Error</strong>",
+                            subtitle:"Message:" + status,}));
+                    }
+                });
+            }
         },
         headerCard:headerCard,
 });
 
+
+
 cardContainer.setModel(oModel);
-//cardContainer.bindAggregation("content","/items", cardFactory); 
-
-if (navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position){
-        $.sap.log.error("LAT:"+position.coords.latitude + " LON:"+position.coords.longitude);
-
-    }
-        );
-}
-
+cardContainer.bindAggregation("cards","/", cardFactory);
 
 
 var app = new sap.m.App({initialPage:"openui5-cards"});
@@ -114,5 +144,6 @@ $(document).ready(function() {
 </head>
 <body class="sapUiBody">
     <div id="content"></div>
+    <div id="mapsAttribution"></div>
 </body>
 </html>
