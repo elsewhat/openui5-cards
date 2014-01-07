@@ -175,6 +175,11 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
         jQuery.sap.require("sap.ui.core.IconPool");
     },
 
+    triggerCardExitAnimation: function(){
+        $(".card").removeAttr("style"); 
+        $(".card").attr("style", "-webkit-animation:card-out-animation 800ms; animation:card-out-animation 800ms"); 
+    },
+
     _initSubComponents: function(oControl){
         var that=oControl;
 

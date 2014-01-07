@@ -35,10 +35,10 @@ if (navigator.geolocation){
     });
 }
 
-//Model will be populated after each executed search
+//Model will be updated after each executed search
 var oModel = new sap.ui.model.json.JSONModel();
 
-//CardFactory is used to create a single card based on a JSON subset from the search  
+//CardFactory is used to create a single card based each results from the the search  
 var cardFactory = function(sId, oContext) { 
     var oCard = new open.m.Card(sId)
         .bindProperty("title", oContext.sPath+"/name")
@@ -78,10 +78,11 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
         minHeight:"40em",
         searchLiveChange:function(oEvent){
             //Handle the search. Called once for each letter
-            //strange. why do we need two getParameters?
             var searchQuery = oEvent.getParameters().getParameters().newValue;
             $.sap.log.error("Search field live change:" +searchQuery);
+            //only look at the search if 4 or more characters
             if(searchQuery!=null && searchQuery.length>=4){
+                //if user's location is not known
                 if(position==null){
                     cardContainer.setHeaderCard(new open.m.Card(
                             {title:"<strong>Error</strong>",
@@ -92,37 +93,43 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
 
                 //Perform the search and update the model accordingly
                 var myLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-
+                //search in 5000meters vicinity
                 var request = {
                     location: myLocation,
                     radius: '5000',
                     keyword: searchQuery
                 };
-
                 var mapsService = new google.maps.places.PlacesService(document.getElementById("mapsAttribution"));
-                cardContainer.setHeaderCard(null);
-                oModel.setData(null);
 
-                //Perform the search
-                mapsService.nearbySearch(request, function (results,status){
-                    $.sap.log.error(status+ " "+ results);
-                    
-                    if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        //model will trigger update of view automatically
-                        oModel.setData(results);
-                    }else {
-                        cardContainer.setHeaderCard(new open.m.Card(
-                            {title:"<strong>Error</strong>",
-                            subtitle:"Message:" + status,}));
-                    }
-                });
+
+                cardContainer.triggerCardExitAnimation();
+                //Wait 300ms before triggering the search in order to allow the exit animation to be played
+                setTimeout(function(){
+                    //Perform the search on the exit animation is done
+                    mapsService.nearbySearch(request, function (results,status){
+                        $.sap.log.error(status+ " "+ results);
+                        
+                        cardContainer.setHeaderCard(null);
+
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            //model will trigger update of view automatically
+                            //the cardFactory used in bindAggregation will be called
+                            oModel.setData(results);
+                        }else {
+                            cardContainer.setHeaderCard(new open.m.Card(
+                                {title:"<strong>Error</strong>",
+                                subtitle:"Message:" + status,}));
+                            oModel.setData(null);
+                        }
+                    })
+                },"300");
             }
         },
         headerCard:headerCard,
 });
 
 
-
+//bind to the model (model is initially empty)
 cardContainer.setModel(oModel);
 cardContainer.bindAggregation("cards","/", cardFactory);
 

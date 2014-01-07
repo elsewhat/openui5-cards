@@ -89,6 +89,13 @@ header.cardHeader {
   }
 }
 
+@-webkit-keyframes card-out-animation {
+  to {
+    -webkit-transform: translateX(30em);
+    opacity:0;
+  }
+}
+
 h1.cardTitle1 {
   font-size:2rem;
   font-weight:200;
