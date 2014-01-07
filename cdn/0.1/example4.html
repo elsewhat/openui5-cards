@@ -1,0 +1,156 @@
+<!DOCTYPE html>  
+<html><head>  
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+<title>openui5-cards Search</title>  
+
+<!--Standard sapui5 init-->
+<script id="sap-ui-bootstrap" 
+    src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    data-sap-ui-theme="sap_bluecrystal"
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
+<script src="openui5-cards.js"></script>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+
+<style>
+/*overwriting title size to smaller value*/
+h1.cardTitle1 {
+  font-size:1.5rem;
+}
+</style>
+
+<script> 
+//Get location of user
+var position = null;
+if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(aPosition){
+        position=aPosition;
+        jQuery.sap.require("sap.m.MessageToast");
+        sap.m.MessageToast.show("Your location has been determined. Now the search will work");
+        $.sap.log.error("LAT:"+position.coords.latitude + " LON:"+position.coords.longitude);
+    });
+}
+
+//Model will be updated after each executed search
+var oModel = new sap.ui.model.json.JSONModel();
+
+//CardFactory is used to create a single card based each results from the the search  
+var cardFactory = function(sId, oContext) { 
+    var oCard = new open.m.Card(sId)
+        .bindProperty("title", oContext.sPath+"/name")
+        .bindProperty("subtitle", oContext.sPath+"/vicinity")
+        .bindProperty("address", oContext.sPath+"/vicinity");
+
+
+    //add menu
+    oCard.setMenu(new sap.m.ActionSheet(sId+"menu1",{
+        title: "Options",
+        showCancelButton: false,
+        placement: sap.m.PlacementType.Bottom,
+        buttons: [
+            new sap.m.Button({
+                icon: "sap-icon://arrow-top",
+                text: "+1",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
+            }),
+        ]
+        }));
+
+    return oCard;
+};
+
+//headerCard is always displayed first
+var headerCard = new open.m.Card("initialCard",
+            {title:"<strong>About</strong>",
+            subtitle:"Demonstrates binding to a dynamic JSONModel based on queries (to Google Places API). Usage: Try search for pizza",})
+
+
+var cardContainer = new open.m.CardContainer("myCardContainer", {
+        showSearchField:true,
+        SearchFieldPlaceHolderText:"Please search for places nearby",
+        minHeight:"40em",
+        searchLiveChange:function(oEvent){
+            //Handle the search. Called once for each letter
+            var searchQuery = oEvent.getParameters().getParameters().newValue;
+            $.sap.log.error("Search field live change:" +searchQuery);
+            //only look at the search if 4 or more characters
+            if(searchQuery!=null && searchQuery.length>=4){
+                //if user's location is not known
+                if(position==null){
+                    cardContainer.setHeaderCard(new open.m.Card(
+                            {title:"<strong>Error</strong>",
+                            subtitle:"Your location is not found. Accept the request for location determination and try again",})
+                    );
+                    return;
+                }
+
+                //Perform the search and update the model accordingly
+                var myLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                //search in 5000meters vicinity
+                var request = {
+                    location: myLocation,
+                    radius: '5000',
+                    keyword: searchQuery
+                };
+                var mapsService = new google.maps.places.PlacesService(document.getElementById("mapsAttribution"));
+
+
+                cardContainer.triggerCardExitAnimation();
+                //Wait 300ms before triggering the search in order to allow the exit animation to be played
+                setTimeout(function(){
+                    //Perform the search on the exit animation is done
+                    mapsService.nearbySearch(request, function (results,status){
+                        $.sap.log.error(status+ " "+ results);
+                        
+                        cardContainer.setHeaderCard(null);
+
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            //model will trigger update of view automatically
+                            //the cardFactory used in bindAggregation will be called
+                            oModel.setData(results);
+                        }else {
+                            cardContainer.setHeaderCard(new open.m.Card(
+                                {title:"<strong>Error</strong>",
+                                subtitle:"Message:" + status,}));
+                            oModel.setData(null);
+                        }
+                    })
+                },"300");
+            }
+        },
+        headerCard:headerCard,
+});
+
+
+//bind to the model (model is initially empty)
+cardContainer.setModel(oModel);
+cardContainer.bindAggregation("cards","/", cardFactory);
+
+
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"GooglePlaces OpenUI5-Cards"});
+pageContent.addContent(cardContainer);
+app.addPage(pageContent);
+
+//ugly hack to get voice search 
+//Believe I need to create my own subclass of sap.m.Input to avoid it 
+$(document).ready(function() {
+    $(".cardSearch > input").attr("x-webkit-speech", ""); 
+})
+</script>
+
+</head>
+<body class="sapUiBody">
+    <div id="content"></div>
+    <div id="mapsAttribution"></div>
+</body>
+</html>

@@ -121,10 +121,10 @@ sap.ui.core.Control.extend("open.m.CardAction", {
 
     },
 
-    _initSubComponents: function(){
+    _initSubComponents: function(oControl){
         var that=this;
-        this.setAggregation("_actionIcon", new sap.ui.core.Icon({
-          src:this.getIcon(),
+        oControl.setAggregation("_actionIcon", new sap.ui.core.Icon({
+          src:oControl.getIcon(),
           color:"#4580f4",
           size: "1.6em",
           press: function(oEvent){
@@ -132,8 +132,8 @@ sap.ui.core.Control.extend("open.m.CardAction", {
           }
         }).addStyleClass("cardActionIcon"));
 
-        this.setAggregation("_actionLink", new sap.m.Link({
-          text: this.getActionText(),
+        oControl.setAggregation("_actionLink", new sap.m.Link({
+          text: oControl.getActionText(),
           press: function(oEvent){
             that.firePress({});
           }
@@ -142,7 +142,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
     },
     
     renderer : function(oRm, oControl) {
-        oControl._initSubComponents();
+        oControl._initSubComponents(oControl);
 
         var hBoxAction = new sap.m.HBox({
             fitContainer:true,
@@ -159,34 +159,71 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
     metadata : {
         properties : {
             "showSearchField" : {type : "boolean", defaultValue : true},
+            "searchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
+            "minHeight" : "string",
+        },events: {
+            "searchLiveChange": {}
         },
         aggregations: {
-            content: {type : "open.m.Card", multiple : true},
-        },
+            cards: {type : "open.m.Card", multiple : true},
+            headerCard: {type : "open.m.Card", multiple : false},
+            "_searchField" : {type : "sap.m.Input", multiple : false, visibility: "hidden"}
+        }
     },
 
     init: function() {
         jQuery.sap.require("sap.ui.core.IconPool");
     },
+
+    triggerCardExitAnimation: function(){
+        $(".card").removeAttr("style"); 
+        $(".card").attr("style", "-webkit-animation:card-out-animation 800ms; animation:card-out-animation 800ms"); 
+    },
+
+    _initSubComponents: function(oControl){
+        var that=oControl;
+
+        if(oControl.getAggregation("_searchField")==null){
+            oControl.setAggregation("_searchField",new sap.m.Input({
+                        type: sap.m.InputType.Text,
+                        placeholder: oControl.getSearchFieldPlaceHolderText(),
+                        liveChange: function(oEvent){
+                            that.fireSearchLiveChange(oEvent);
+                         }
+                    }).addStyleClass("cardSearch").setWidth("25em")
+            );
+        }
+
+    },
+
     
     renderer : function(oRm, oControl) {
+        oControl._initSubComponents(oControl);
         oRm.write("<main class=\"cardContainer\"");
         oRm.writeControlData(oControl);
+        if(oControl.getMinHeight()!=null){
+            oRm.write(" style=\"min-height:" + oControl.getMinHeight()+"\" ");
+        }
         oRm.write(">");
 
         oRm.write("<header class=\"cardHeader\"></header>");
 
         if(oControl.getShowSearchField()){
-            oRm.write("<input class=\"cardSearch\" placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />");
+            oRm.renderControl(oControl.getAggregation("_searchField"));
+            //oRm.write("<input class=\"cardSearch\" placeholder=\"Search\" x-webkit-speech autocomplete=\"off\" />");
         }else {
            oRm.write("<div class=\"cardSearchDisabled\"/>"); 
         }
 
-        var aCards = oControl.getContent();
+        if(oControl.getHeaderCard()!=null){
+            oRm.renderControl(oControl.getHeaderCard());
+        }
+        var aCards = oControl.getCards();
         for (var i = 0; i < aCards.length; i++){
             oRm.renderControl(aCards[i]);
         }
         
         oRm.write("</main>");
+
     }
 });
