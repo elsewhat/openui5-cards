@@ -68,31 +68,26 @@ header.cardHeader {
   margin:0 1rem 1rem;
   border-radius:3px;
   user-select:none;
-  animation:fly-in-from-left .5s 1s ease both;
+  animation:card-in-animation  0.7s .2s ease-out both;
+  -webkit-animation:card-in-animation  0.7s .2s ease-out both;
   transform-origin:top left;
   position:relative;
   z-index:2;
 }
-.card:nth-child(even){
-  animation-name:fly-in-from-right;
-  animation-delay:1.1s;
- transform-origin:top right;
-}
 
-@keyframes fly-in-from-left {
+@-webkit-keyframes card-in-animation {
   from {
-    transform:translateY(15rem) rotate(15deg);
+    -webkit-transform: translateY(50em) rotate(5deg);
     opacity:0;
   }
 }
 
-@keyframes fly-in-from-right {
+@keyframes card-in-animation {
   from {
-    transform:translateY(15rem) rotate(-15deg);
+    -webkit-transform: translateY(50em) rotate(5deg);
     opacity:0;
   }
 }
-
 
 h1.cardTitle1 {
   font-size:2rem;
