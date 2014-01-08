@@ -21,8 +21,7 @@ header.cardHeader {
   top:0; left:0; right:0;
   height:10rem;
   transition:transform .5s, opacity .3s;
-  background:url(http://www.droid-life.com/wp-content/uploads/2013/01/googlenownewyork.png)  center center;
-  background-size:cover;
+
 }
 
 .cardSearch  {

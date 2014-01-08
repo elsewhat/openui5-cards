@@ -104,6 +104,7 @@ var headerCard = new open.m.Card("initialCard",
 var cardContainer = new open.m.CardContainer("myCardContainer", 
     {   showSearchField:false,
         headerCard:headerCard,
+        headerImageUrl:"openui5-cards-header-dawn.png"
     });
 cardContainer.setModel(oModel);
 cardContainer.bindAggregation("cards","/data/children", cardFactory); 

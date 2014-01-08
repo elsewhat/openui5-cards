@@ -161,6 +161,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
             "showSearchField" : {type : "boolean", defaultValue : true},
             "searchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
             "minHeight" : "string",
+            headerImageUrl: {type:"string",defaultValue:"openui5-cards-header-day.png"},
         },events: {
             "searchLiveChange": {}
         },
@@ -206,7 +207,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
         }
         oRm.write(">");
 
-        oRm.write("<header class=\"cardHeader\"></header>");
+        oRm.write("<header class=\"cardHeader\" style=\"background:url("+oControl.getHeaderImageUrl()+") center center;background-size:cover;\"></header>");
 
         if(oControl.getShowSearchField()){
             oRm.renderControl(oControl.getAggregation("_searchField"));
