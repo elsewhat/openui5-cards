@@ -191,7 +191,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
                         liveChange: function(oEvent){
                             that.fireSearchLiveChange(oEvent);
                          }
-                    }).addStyleClass("cardSearch").setWidth("25em")
+                    }).addStyleClass("cardSearch").setWidth("20em")
             );
         }
 
