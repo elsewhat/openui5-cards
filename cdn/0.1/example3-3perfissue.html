@@ -19,6 +19,10 @@ Needs to be after sapui5 init in order to override styles-->
 h1.cardTitle1 {
   font-size:1.5rem;
 }
+body{
+  /*value :fixed caused a full repaint for all scroll events. Kills performance*/
+  background-attachment:scroll;
+}
 </style>
 
 <script> 
@@ -113,14 +117,14 @@ cardContainer.setModel(oModel);
 cardContainer.bindAggregation("cards","/items", cardFactory); 
 
 
-cardContainer.placeAt("content");
+//cardContainer.placeAt("content");
 //TODO: Resolve Issues with scroll performance for sap.m.App
-//var app = new sap.m.App({initialPage:"openui5-cards"});
-//app.placeAt("content");
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
 
-/*var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards"});
+var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards"});
 pageContent.addContent(cardContainer);
-app.addPage(pageContent);*/
+app.addPage(pageContent);
 </script>
 
 </head>

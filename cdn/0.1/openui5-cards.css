@@ -1,9 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,700,500italic,900,700italic,900italic);
-
+/*
 body{
-  /*value :fixed caused a full repaint for all scroll events. Kills performance*/
+  value :fixed caused a full repaint for all scroll events. Kills performance
   background-attachment:scroll;
-}
+}*/
 
 
 main.cardContainer {
@@ -13,12 +13,10 @@ main.cardContainer {
   background:#d5d5d5;
   outline
   border-radius:.25rem;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
   max-width:27em;
   margin:0px auto;
-  transform:scale(.75);
-  transform-origin:center 3rem;
-  transition:transform .3s;
 }
 
 header.cardHeader {
