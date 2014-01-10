@@ -134,17 +134,13 @@ var cardContainer = new open.m.CardContainer("myCardContainer", {
 cardContainer.setModel(oModel);
 cardContainer.bindAggregation("cards","/", cardFactory);
 
-cardContainer.placeAt("content");
-
-/*TODO: Resolve Issues with scroll performance for sap.m.App
 var app = new sap.m.App({initialPage:"openui5-cards"});
 app.placeAt("content");
-*/
 
-/*
-var pageContent = new sap.m.Page("openui5-cards",{title:"GooglePlaces OpenUI5-Cards"});
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"GooglePlaces OpenUI5-Cards", showHeader:false, showFooter:false});
 pageContent.addContent(cardContainer);
-app.addPage(pageContent);*/
+app.addPage(pageContent);
 
 //ugly hack to get voice search 
 //Believe I need to create my own subclass of sap.m.Input to avoid it 
