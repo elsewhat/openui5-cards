@@ -1,0 +1,171 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,700,500italic,900,700italic,900italic);
+
+body{
+  /*value :fixed caused a full repaint for all scroll events. Kills performance*/
+  background-attachment:scroll;
+}
+
+
+main.cardContainer {
+  display:block;
+  position:relative;
+  padding:1.5rem 0 0;
+  background:#d5d5d5;
+  outline
+  border-radius:.25rem;
+  overflow:hidden;
+  max-width:27em;
+  margin:0px auto;
+  transform:scale(.75);
+  transform-origin:center 3rem;
+  transition:transform .3s;
+}
+
+header.cardHeader {
+  position:absolute;
+  z-index:0;
+  top:0; left:0; right:0;
+  height:10rem;
+  transition:transform .5s, opacity .3s;
+
+}
+
+.cardSearch  {
+  margin:0em 0em 6.5em 0em;
+}
+
+.cardSearch > input  {
+  position:relative;
+  z-index:2;
+  display:block;
+  margin:0em 0em 5.5em 1em;
+  border:0;
+  font-family: 'Roboto', sans-serif;
+  line-height:1.2;
+  font-size:1.2em;
+  border-radius:3px;
+  box-shadow:0 1px 2px #aaa;
+  transition:.5s, margin-bottom .15s;
+}
+
+/*Believe me, these we hard to overwrite*/
+.cardSearch > input::-webkit-input-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+.cardSearch > input:-moz-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+.cardSearch > input:-ms-input-placeholder{color:#8c8c8c;font-family: 'Roboto', sans-serif;font-size:1em;font-style:normal}
+
+.cardSearch:focus {
+  outline:0;
+}
+
+.cardSearch:focus + header {
+  opacity:0;
+}
+
+.cardSearchDisabled{
+  height:9.5rem;
+}
+
+
+.card {
+  padding:1.5rem;
+  box-shadow:0 1px 2px #aaa;
+  background:white;
+  margin:0 1rem 1rem;
+  border-radius:3px;
+  user-select:none;
+  animation:card-in-animation  0.7s .2s ease-out both;
+  -webkit-animation:card-in-animation  0.7s .2s ease-out both;
+  transform-origin:top left;
+  position:relative;
+  z-index:2;
+}
+
+@-webkit-keyframes card-in-animation {
+  from {
+    -webkit-transform: translateY(50em) rotate(5deg);
+    opacity:0;
+  }
+}
+
+@keyframes card-in-animation {
+  from {
+    -webkit-transform: translateY(50em) rotate(5deg);
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes card-out-animation {
+  to {
+    -webkit-transform: translateX(30em);
+    opacity:0;
+  }
+}
+
+h1.cardTitle1 {
+  font-size:2rem;
+  font-weight:200;
+  margin:0 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+  line-height:1.2;
+}
+strong {
+    font-weight:300;
+    color:#539D00;
+}
+
+h2.cardTitle2 {
+  font-size:.9rem;
+  line-height:1.5;
+  color:#8c8c8c;
+  font-weight:400;
+  margin:0 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+}
+
+.cardActionLink {
+  font-size:1.3rem;
+  color:#4580f4;
+  font-weight:300;
+  margin:1.2rem 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+  line-height:1.2;
+}
+
+.cardActionLink:visited {
+  color:#4580f4;
+}
+
+.cardActionIcon {
+   margin:1rem 0.7rem 0rem 0rem; 
+}
+.cardActionIcon:visited {
+}
+
+.cardMenuIcon {
+   position:absolute;
+   top: 0.5em;
+   right: 0.3em;
+   width:0.3em;
+   overflow:hidden;
+   color:gray;
+}
+
+.cardMenuIcon:visited {
+   position:absolute;
+   top: 0.5em;
+   right: 0.3em;
+   width:0.3em;
+   overflow:hidden;
+   color:gray;
+}
+
+.cardMap {
+  height:12rem;
+  background:whitesmoke;
+  margin:0 -1.5rem 0 -1.5rem;
+}
+.cardImage {
+  height:12rem;
+  background:whitesmoke;
+  margin:0 -1.5rem 0 -1.5rem;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>  
+<html><head>  
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+<title>openui5-cards</title>  
+
+<!--Standard sapui5 init-->
+<script id="sap-ui-bootstrap" 
+    src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    data-sap-ui-theme="sap_bluecrystal"
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
+<script src="openui5-cards.js"></script>
+
+
+<script> 
+//Example of usage of the components in this section
+var headerCard = new open.m.Card("initialCard",
+            {title:"<strong>About</strong>",
+            subtitle:"Demonstrates simple usage of statically defined cards (through javascript)",})
+
+var card1 = new open.m.Card("card1", 
+    {title:"GoogleNow style cards coming to #OpenUI5", 
+    subtitle:"Thanks for open sourcing SAP", 
+    image:"http://sap.github.io/openui5/images/icotxt_white_220x72_blue_open.png"});
+
+var card2 = new open.m.Card("card2",
+    {title:"<strong>4 days</strong> to destination in Palo Alto",
+    subtitle:"This is the subtitle of my card2", 
+    address:"SAP Palo alto",
+    actions: [new open.m.CardAction("cardaction1",
+                {actionText:"Navigate", 
+                press:function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Navigate action clicked");
+                },
+                icon:"sap-icon://locate-me"}),
+              new open.m.CardAction("cardaction2",
+                {actionText:"View email", 
+                icon:"sap-icon://email"}),
+              ],
+    menu: new sap.m.ActionSheet("menu1",{
+        title: "Choose Your Action",
+        showCancelButton: false,
+        placement: sap.m.PlacementType.Bottom,
+        buttons: [
+            new sap.m.Button({
+                icon: "sap-icon://decline",
+                text: "Reject",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }                
+            }),
+            new sap.m.Button({
+                icon: "sap-icon://accept",
+                text: "Accept",
+                press: function(){
+                    jQuery.sap.require("sap.m.MessageToast");
+                    sap.m.MessageToast.show("Not implemented (ie. Left as an exercise for the user)");
+                }
+            }),
+        ]
+        }),
+    });
+
+var cardContainer = new open.m.CardContainer("myCardContainer", {
+    searchLiveChange:function(oEvent){
+        //strange. why do we need two getParameters?
+        $.sap.log.error("Search field live change:" +oEvent.getParameters().getParameters().newValue);
+    },
+    headerCard:headerCard,
+    cards:[card1,card2]
+});
+
+
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"OpenUI5-Cards", showHeader:false, showFooter:false});
+pageContent.addContent(cardContainer);
+app.addPage(pageContent);
+
+//ugly hack to get voice search 
+//Believe I need to create my own subclass of sap.m.Input to avoid it 
+$(document).ready(function() {
+    $(".cardSearch > input").attr("x-webkit-speech", ""); 
+})
+</script>
+
+</head>
+<body class="sapUiBody">
+    <div id="content"></div>
+</body>
+</html>
