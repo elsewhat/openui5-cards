@@ -122,6 +122,15 @@ h2.cardTitle2 {
   font-family: 'Roboto', sans-serif; 
 }
 
+.cardTitle2 {
+  font-size:.9rem;
+  line-height:1.5;
+  color:#8c8c8c;
+  font-weight:400;
+  margin:0 0 0 0;
+  font-family: 'Roboto', sans-serif; 
+}
+
 .cardActionLink {
   font-size:1.3rem;
   color:#4580f4;

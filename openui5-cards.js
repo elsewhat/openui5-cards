@@ -15,6 +15,7 @@ sap.ui.core.Control.extend("open.m.Card", {
             menu: {type: "sap.m.ActionSheet", multiple:false},
             "_menuIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"},
             "_actionsVBox" : {type : "sap.m.VBox", multiple : false, visibility: "hidden"},
+            bodyGeneric: {type: "sap.ui.core.Control",multiple:false}
         },
     },
 
@@ -92,6 +93,10 @@ sap.ui.core.Control.extend("open.m.Card", {
                 + oControl.getImage()+ "');"
                 + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
+        }else if (oControl.getAggregation("bodyGeneric")!=null){
+            oRm.write("<div class=\"cardBodyGeneric\">");
+            oRm.renderControl(oControl.getAggregation("bodyGeneric"));
+            oRm.write("</div>");
         }
         
         if(oControl.getAggregation("_actionsVBox")!=null){
