@@ -7,8 +7,8 @@ sap.ui.core.Control.extend("open.m.Card", {
         properties : {
             "title" : "string",
             "subtitle" : "string",
-            "address": "string",
-            "image": "string",
+            "bodyAddress": "string",
+            "bodyImage": "string",
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
@@ -81,16 +81,16 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.writeEscaped(oControl.getSubtitle());
         oRm.write("</h2>");
 
-        if(oControl.getAddress() != null){
+        if(oControl.getBodyAddress() != null){
             oRm.write("<div class=\"cardMap\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
-                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false');"
+                + encodeURIComponent(oControl.getBodyAddress()) + "&zoom=13&size=448x192&sensor=false');"
                 + "background-repeat:no-repeat;background-position:0 top;background-size:cover\">" + 
                 "</div>");
-        } else if (oControl.getImage() != null && oControl.getImage()!=""){
+        } else if (oControl.getBodyImage() != null && oControl.getBodyImage()!=""){
             oRm.write("<div class=\"cardImage\" " +
                 "style=\"background: url('" 
-                + oControl.getImage()+ "');"
+                + oControl.getBodyImage()+ "');"
                 + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
         }else if (oControl.getAggregation("bodyGeneric")!=null){
