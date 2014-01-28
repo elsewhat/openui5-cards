@@ -9,6 +9,7 @@ sap.ui.core.Control.extend("open.m.Card", {
             "subtitle" : "string",
             "bodyAddress": "string",
             "bodyImage": "string",
+            "titleLink": "string"
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
@@ -72,14 +73,22 @@ sap.ui.core.Control.extend("open.m.Card", {
         }
         
         oRm.write("<h1 class=\"cardTitle1\">");
+        if(oControl.getTitleLink()){
+          oRm.write("<a href=\""+oControl.getTitleLink() + "\">");
+        }
         //writing unescaped in order to get emphasis included
         //TODO: Is there a more intuitive way to define emphasis?
         oRm.write(oControl.getTitle());
+        if(oControl.getTitleLink()){
+          oRm.write("</a>");
+        }
         oRm.write("</h1>");
 
-        oRm.write("<h2 class=\"cardTitle2\">");
-        oRm.writeEscaped(oControl.getSubtitle());
-        oRm.write("</h2>");
+        if(oControl.getSubtitle()!=null){
+            oRm.write("<h2 class=\"cardTitle2\">");
+            oRm.writeEscaped(oControl.getSubtitle());
+            oRm.write("</h2>");
+        }
 
         if(oControl.getBodyAddress() != null){
             oRm.write("<div class=\"cardMap\" " +
