@@ -30,7 +30,7 @@ var cardFactory = function(sId, oContext) {
     var oCard = new open.m.Card(sId)
         .bindProperty("title", oContext.sPath+"/data/title")
         .bindProperty("subtitle", oContext.sPath+"/data/subreddit") 
-        .bindProperty("image", oContext.sPath+"/data/thumbnail",function(aImage){
+        /*.bindProperty("image", oContext.sPath+"/data/thumbnail",function(aImage){
                 //only accept values starting with http
                 if(aImage!=null && aImage.toLowerCase().substring(0,4) === "http"){
                     return aImage;
@@ -38,7 +38,34 @@ var cardFactory = function(sId, oContext) {
                     return null;
                 }
             }
-        ); 
+        );*/ 
+
+    var imageUrl = oContext.getModel().getProperty(oContext.sPath+"/data/thumbnail");
+    if(imageUrl!=null && imageUrl.toLowerCase().substring(0,4) != "http"){
+        imageUrl=null;
+    }
+
+    var bodyContent =  new sap.m.HBox({
+        width:"100%",
+        items:[
+            new sap.m.Image({src:imageUrl, height:"140px"}).addStyleClass("cardImage"),
+            new sap.m.VBox({
+                width:"100%",
+                alignItems: sap.m.FlexAlignItems.End,
+                items:[
+                    new sap.m.Text({text:"Upvotes:" + oContext.getModel().getProperty(oContext.sPath+"/data/ups")}).addStyleClass("cardTitle2"),
+                    new sap.m.Text({text:"Downvotes:" + oContext.getModel().getProperty(oContext.sPath+"/data/downs")}).addStyleClass("cardTitle2"),
+                    new sap.m.Text({text:"Comments:" + oContext.getModel().getProperty(oContext.sPath+"/data/num_comments")}).addStyleClass("cardTitle2"),
+                    new sap.m.Text({text:"By:" + oContext.getModel().getProperty(oContext.sPath+"/data/author")}).addStyleClass("cardTitle2"),
+                ]
+            })   
+
+           ]
+        }
+    );
+
+    oCard.setBodyGeneric(bodyContent);
+    oCard.setShowDividerAfterContent(false);
 
 
     var redditCommentLink = "http://www.reddit.com"+ oContext.getModel().getProperty(oContext.sPath+"/data/permalink");

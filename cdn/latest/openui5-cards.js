@@ -7,14 +7,18 @@ sap.ui.core.Control.extend("open.m.Card", {
         properties : {
             "title" : "string",
             "subtitle" : "string",
-            "address": "string",
-            "image": "string",
+            "bodyAddress": "string",
+            "bodyImage": "string",
+            "titleLink": "string",
+            "showDividerAfterContent" : {type : "boolean", defaultValue : true},
+            "showDividerBetweenActions" : {type : "boolean", defaultValue : true},
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
             menu: {type: "sap.m.ActionSheet", multiple:false},
             "_menuIcon" : {type : "sap.ui.core.Icon", multiple : false, visibility: "hidden"},
             "_actionsVBox" : {type : "sap.m.VBox", multiple : false, visibility: "hidden"},
+            bodyGeneric: {type: "sap.ui.core.Control",multiple:false}
         },
     },
 
@@ -48,9 +52,20 @@ sap.ui.core.Control.extend("open.m.Card", {
             //Note that this moves the actions objects from the main Cards control to
             //the sub-control: This means that on subsequent request this code is not executed 
             //Not sure on the best way how to keep them in sync (and don't want the users to provide a VBox as input)
+            
+
+            if(oControl.getShowDividerBetweenActions()){
+                //show divider after all but the last action
+                var actions = oControl.getActions();
+                for (var i = 0; i < actions.length-1; i++){
+                    actions[i].setShowDividerAfterAction(true);
+                }
+            }
+            
+
             oControl.setAggregation("_actionsVBox",vBoxActions = new sap.m.VBox({
                 items:oControl.getActions()
-            }));
+            }).addStyleClass("cardActionBox"));
             
         }
 
@@ -71,27 +86,46 @@ sap.ui.core.Control.extend("open.m.Card", {
         }
         
         oRm.write("<h1 class=\"cardTitle1\">");
+        if(oControl.getTitleLink()){
+          oRm.write("<a href=\""+oControl.getTitleLink() + "\">");
+        }
         //writing unescaped in order to get emphasis included
         //TODO: Is there a more intuitive way to define emphasis?
         oRm.write(oControl.getTitle());
+        if(oControl.getTitleLink()){
+          oRm.write("</a>");
+        }
         oRm.write("</h1>");
 
-        oRm.write("<h2 class=\"cardTitle2\">");
-        oRm.writeEscaped(oControl.getSubtitle());
-        oRm.write("</h2>");
+        if(oControl.getSubtitle()!=null){
+            oRm.write("<h2 class=\"cardTitle2\">");
+            oRm.writeEscaped(oControl.getSubtitle());
+            oRm.write("</h2>");
+        }
 
-        if(oControl.getAddress() != null){
-            oRm.write("<div class=\"cardMap\" " +
+        var cardBodyClasses="";
+        if(oControl.getShowDividerAfterContent()){
+            cardBodyClasses="cardBodyDivider ";
+        }
+        if(oControl.getBodyAddress() != null){
+            cardBodyClasses += "cardMap";
+            oRm.write("<div class=\""+cardBodyClasses+"\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
-                + encodeURIComponent(oControl.getAddress()) + "&zoom=13&size=448x192&sensor=false');"
+                + encodeURIComponent(oControl.getBodyAddress()) + "&zoom=13&size=448x192&sensor=false');"
                 + "background-repeat:no-repeat;background-position:0 top;background-size:cover\">" + 
                 "</div>");
-        } else if (oControl.getImage() != null && oControl.getImage()!=""){
-            oRm.write("<div class=\"cardImage\" " +
+        } else if (oControl.getBodyImage() != null && oControl.getBodyImage()!=""){
+            cardBodyClasses += "cardImage";
+            oRm.write("<div class=\""+cardBodyClasses+"\" " +
                 "style=\"background: url('" 
-                + oControl.getImage()+ "');"
+                + oControl.getBodyImage()+ "');"
                 + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
+        }else if (oControl.getAggregation("bodyGeneric")!=null){
+            cardBodyClasses += "cardBodyGeneric";
+            oRm.write("<div class=\""+cardBodyClasses+"\">");
+            oRm.renderControl(oControl.getAggregation("bodyGeneric"));
+            oRm.write("</div>");
         }
         
         if(oControl.getAggregation("_actionsVBox")!=null){
@@ -108,6 +142,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
             "icon" : {type : "sap.ui.core.URI", group : "Appearance", defaultValue : null},
             "actionText" : "string",
             "displayIcon": {type : "boolean", defaultValue : false},
+            "showDividerAfterAction" : {type : "boolean", defaultValue : false},
         },events: {
             "press": {}
         },
@@ -146,9 +181,13 @@ sap.ui.core.Control.extend("open.m.CardAction", {
 
         var hBoxAction = new sap.m.HBox({
             fitContainer:true,
+            height:"6rem",
             items:[oControl.getAggregation("_actionIcon"),
                    oControl.getAggregation("_actionLink")]
-        })   
+        })
+        if(oControl.getShowDividerAfterAction()){
+            hBoxAction.addStyleClass("cardActionDivider"); 
+        }
 
         oRm.renderControl(hBoxAction);
     },
@@ -161,7 +200,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
             "showSearchField" : {type : "boolean", defaultValue : true},
             "searchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
             "minHeight" : "string",
-            headerImageUrl: {type:"string",defaultValue:"openui5-cards-header-day.png"},
+            "headerImageUrl": {type:"string",defaultValue:"openui5-cards-header-day.png"},
         },events: {
             "searchLiveChange": {}
         },

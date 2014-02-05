@@ -19,6 +19,19 @@ Needs to be after sapui5 init in order to override styles-->
 h1.cardTitle1 {
   font-size:1.5rem;
 }
+
+/*Attempting to improve performance*/
+body{
+    background-image:none;
+}
+
+.sapMGlobalBackgroundColor{
+    background-image:none;       
+}
+
+.sapMGlobalBackgroundImage{
+    background-image:none;
+}
 </style>
 
 <script> 
@@ -30,7 +43,7 @@ var cardFactory = function(sId, oContext) {
     var oCard = new open.m.Card(sId)
         .bindProperty("title", oContext.sPath+"/title")
         .bindProperty("subtitle", oContext.sPath+"/actor/displayName")
-        .bindProperty("image", oContext.sPath+"/object/attachments",function(postAttachments){
+        .bindProperty("bodyImage", oContext.sPath+"/object/attachments",function(postAttachments){
                 //surely there is a better way of handling bindings like this one
                 if(postAttachments!= null && postAttachments.length>=1){
                     return postAttachments[0].image.url;

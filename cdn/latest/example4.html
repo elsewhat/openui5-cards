@@ -43,7 +43,7 @@ var cardFactory = function(sId, oContext) {
     var oCard = new open.m.Card(sId)
         .bindProperty("title", oContext.sPath+"/name")
         .bindProperty("subtitle", oContext.sPath+"/vicinity")
-        .bindProperty("address", oContext.sPath+"/vicinity");
+        .bindProperty("bodyAddress", oContext.sPath+"/vicinity");
 
 
     //add menu

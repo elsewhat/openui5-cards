@@ -1,0 +1,70 @@
+<!DOCTYPE html>  
+<html><head>  
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+<title>openui5-cards reddit</title>  
+
+<!--Standard sapui5 init-->
+<script id="sap-ui-bootstrap" 
+    src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    data-sap-ui-theme="sap_bluecrystal"
+    data-sap-ui-libs="sap.m,sap.ui.commons"></script> 
+
+<!--CSS required by open.m.Card
+Needs to be after sapui5 init in order to override styles-->
+<link href="openui5-cards.css" type="text/css" rel="stylesheet"/>
+<script src="openui5-cards.js"></script>
+
+<style>
+/*overwriting title size to smaller value*/
+h1.cardTitle1 {
+  font-size:1.5rem;
+}
+</style>
+
+<script> 
+var githubApiElsewhat="https://api.github.com/users/elsewhat/repos?sort=updated";
+var oModel = new sap.ui.model.json.JSONModel(githubApiElsewhat);
+
+ 
+var cardFactory = function(sId, oContext) { 
+    var oCard = new open.m.Card(sId)
+        .bindProperty("subtitle", oContext.sPath+"/description") 
+        .bindProperty("titleLink", oContext.sPath+"/html_url")
+        .bindProperty("title", oContext.sPath+"/name",function(name){
+                return "<strong>"+ name+ "</strong>";
+            }
+        );
+
+
+    return oCard;
+};
+
+var headerCard = new open.m.Card("initialCard",
+            {title:"About",
+            subtitle:"Github projects by Dagfinn Parnas (@dparnas / elsewhat)",})
+
+
+var cardContainer = new open.m.CardContainer("myCardContainer", 
+    {   showSearchField:false,
+        headerCard:headerCard,
+        headerImageUrl:"openui5-cards-header-dawn.png"
+    });
+cardContainer.setModel(oModel);
+cardContainer.bindAggregation("cards","/", cardFactory); 
+
+
+
+var app = new sap.m.App({initialPage:"openui5-cards"});
+app.placeAt("content");
+
+
+var pageContent = new sap.m.Page("openui5-cards",{title:"Github projects @dparnas", showHeader:false, showFooter:false});
+pageContent.addContent(cardContainer);
+app.addPage(pageContent);
+</script>
+
+</head>
+<body class="sapUiBody">
+    <div id="content"></div>
+</body>
+</html>
