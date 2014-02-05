@@ -9,7 +9,9 @@ sap.ui.core.Control.extend("open.m.Card", {
             "subtitle" : "string",
             "bodyAddress": "string",
             "bodyImage": "string",
-            "titleLink": "string"
+            "titleLink": "string",
+            "showDividerAfterContent" : {type : "boolean", defaultValue : true},
+            "showDividerBetweenActions" : {type : "boolean", defaultValue : true},
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
@@ -50,9 +52,20 @@ sap.ui.core.Control.extend("open.m.Card", {
             //Note that this moves the actions objects from the main Cards control to
             //the sub-control: This means that on subsequent request this code is not executed 
             //Not sure on the best way how to keep them in sync (and don't want the users to provide a VBox as input)
+            
+
+            if(oControl.getShowDividerBetweenActions()){
+                //show divider after all but the last action
+                var actions = oControl.getActions();
+                for (var i = 0; i < actions.length-1; i++){
+                    actions[i].setShowDividerAfterAction(true);
+                }
+            }
+            
+
             oControl.setAggregation("_actionsVBox",vBoxActions = new sap.m.VBox({
                 items:oControl.getActions()
-            }));
+            }).addStyleClass("cardActionBox"));
             
         }
 
@@ -90,20 +103,27 @@ sap.ui.core.Control.extend("open.m.Card", {
             oRm.write("</h2>");
         }
 
+        var cardBodyClasses="";
+        if(oControl.getShowDividerAfterContent()){
+            cardBodyClasses="cardBodyDivider ";
+        }
         if(oControl.getBodyAddress() != null){
-            oRm.write("<div class=\"cardMap\" " +
+            cardBodyClasses += "cardMap";
+            oRm.write("<div class=\""+cardBodyClasses+"\" " +
                 "style=\"background: url('http://maps.googleapis.com/maps/api/staticmap?center=" 
                 + encodeURIComponent(oControl.getBodyAddress()) + "&zoom=13&size=448x192&sensor=false');"
                 + "background-repeat:no-repeat;background-position:0 top;background-size:cover\">" + 
                 "</div>");
         } else if (oControl.getBodyImage() != null && oControl.getBodyImage()!=""){
-            oRm.write("<div class=\"cardImage\" " +
+            cardBodyClasses += "cardImage";
+            oRm.write("<div class=\""+cardBodyClasses+"\" " +
                 "style=\"background: url('" 
                 + oControl.getBodyImage()+ "');"
                 + "background-repeat:no-repeat;background-position:0 15%;background-size:cover\">" + 
                 "</div>");
         }else if (oControl.getAggregation("bodyGeneric")!=null){
-            oRm.write("<div class=\"cardBodyGeneric\">");
+            cardBodyClasses += "cardBodyGeneric";
+            oRm.write("<div class=\""+cardBodyClasses+"\">");
             oRm.renderControl(oControl.getAggregation("bodyGeneric"));
             oRm.write("</div>");
         }
@@ -122,6 +142,7 @@ sap.ui.core.Control.extend("open.m.CardAction", {
             "icon" : {type : "sap.ui.core.URI", group : "Appearance", defaultValue : null},
             "actionText" : "string",
             "displayIcon": {type : "boolean", defaultValue : false},
+            "showDividerAfterAction" : {type : "boolean", defaultValue : false},
         },events: {
             "press": {}
         },
@@ -160,9 +181,13 @@ sap.ui.core.Control.extend("open.m.CardAction", {
 
         var hBoxAction = new sap.m.HBox({
             fitContainer:true,
+            height:"6rem",
             items:[oControl.getAggregation("_actionIcon"),
                    oControl.getAggregation("_actionLink")]
-        })   
+        })
+        if(oControl.getShowDividerAfterAction()){
+            hBoxAction.addStyleClass("cardActionDivider"); 
+        }
 
         oRm.renderControl(hBoxAction);
     },
@@ -175,7 +200,7 @@ sap.ui.core.Control.extend("open.m.CardContainer", {
             "showSearchField" : {type : "boolean", defaultValue : true},
             "searchFieldPlaceHolderText":{type:"string",defaultValue:"Search"},
             "minHeight" : "string",
-            headerImageUrl: {type:"string",defaultValue:"openui5-cards-header-day.png"},
+            "headerImageUrl": {type:"string",defaultValue:"openui5-cards-header-day.png"},
         },events: {
             "searchLiveChange": {}
         },

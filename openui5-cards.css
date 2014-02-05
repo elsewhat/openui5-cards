@@ -68,6 +68,7 @@ header.cardHeader {
 
 .card {
   padding:1.5rem;
+  padding-bottom: 0.6rem;
   box-shadow:0 1px 2px #aaa;
   background:white;
   margin:0 1rem 1rem;
@@ -148,11 +149,15 @@ h2.cardTitle2 {
   font-family: 'Roboto', sans-serif; 
 }
 
+.cardActionBox {
+  padding-top:0.3rem;
+}
+
 .cardActionLink {
   font-size:1.3rem;
   color:#4580f4;
   font-weight:300;
-  margin:1.2rem 0 0 0;
+  margin:0.2rem 0 0 0;
   font-family: 'Roboto', sans-serif; 
   line-height:1.2;
 }
@@ -162,7 +167,7 @@ h2.cardTitle2 {
 }
 
 .cardActionIcon {
-   margin:1rem 0.7rem 0rem 0rem; 
+   margin:0.2rem 0.7rem 0rem 0rem; 
 }
 .cardActionIcon:visited {
 }
@@ -194,4 +199,13 @@ h2.cardTitle2 {
   height:12rem;
   background:whitesmoke;
   margin:0 -1.5rem 0 -1.5rem;
+  vertical-align: bottom;
+}
+
+.cardBodyDivider{
+  border-bottom: 1px solid #eeeeee;
+}
+
+.cardActionDivider{
+  border-bottom: 1px solid #eeeeee;
 }

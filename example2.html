@@ -48,7 +48,7 @@ var cardFactory = function(sId, oContext) {
     var bodyContent =  new sap.m.HBox({
         width:"100%",
         items:[
-            new sap.m.Image({src:imageUrl, height:"140px"}),
+            new sap.m.Image({src:imageUrl, height:"140px"}).addStyleClass("cardImage"),
             new sap.m.VBox({
                 width:"100%",
                 alignItems: sap.m.FlexAlignItems.End,
@@ -65,6 +65,7 @@ var cardFactory = function(sId, oContext) {
     );
 
     oCard.setBodyGeneric(bodyContent);
+    oCard.setShowDividerAfterContent(false);
 
 
     var redditCommentLink = "http://www.reddit.com"+ oContext.getModel().getProperty(oContext.sPath+"/data/permalink");
