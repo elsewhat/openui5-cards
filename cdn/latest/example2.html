@@ -19,6 +19,12 @@ Needs to be after sapui5 init in order to override styles-->
 h1.cardTitle1 {
   font-size:1.5rem;
 }
+.sapMNav{
+    overflow:visible;
+}
+.sapMPageScroll{
+    overflow:visible;
+}
 </style>
 
 <script> 
@@ -142,7 +148,7 @@ var app = new sap.m.App({initialPage:"openui5-cards"});
 app.placeAt("content");
 
 
-var pageContent = new sap.m.Page("openui5-cards",{title:"Reddit OpenUI5-Cards", showHeader:false, showFooter:false});
+var pageContent = new sap.m.Page("openui5-cards",{title:"Reddit OpenUI5-Cards", showHeader:false, showFooter:false, enableScrolling:false});
 pageContent.addContent(cardContainer);
 app.addPage(pageContent);
 </script>
