@@ -74,11 +74,14 @@ header.cardHeader {
   margin:0 1rem 1rem;
   border-radius:3px;
   user-select:none;
-  animation:card-in-animation  0.7s .2s ease-out both;
-  -webkit-animation:card-in-animation  0.7s .2s ease-out both;
   transform-origin:top left;
   position:relative;
   z-index:2;
+}
+
+.cardAnimtion{
+  animation:card-in-animation  0.7s .2s ease-out both;
+  -webkit-animation:card-in-animation  0.7s .2s ease-out both;
 }
 
 @-webkit-keyframes card-in-animation {

@@ -12,6 +12,7 @@ sap.ui.core.Control.extend("open.m.Card", {
             "titleLink": "string",
             "showDividerAfterContent" : {type : "boolean", defaultValue : true},
             "showDividerBetweenActions" : {type : "boolean", defaultValue : true},
+            "_renderedOnce": {type : "boolean", defaultValue : false},
         },
         aggregations: {
             actions: {type : "open.m.CardAction", multiple : true},
@@ -78,6 +79,12 @@ sap.ui.core.Control.extend("open.m.Card", {
         oRm.write("<div"); 
         oRm.writeControlData(oControl);
         oRm.addClass("card"); 
+
+        if(oControl.getProperty("_renderedOnce")==false){
+            oRm.addClass("cardAnimation")  ;
+            oControl.setProperty("_renderedOnce", true);
+        }
+
         oRm.writeClasses();
         oRm.write(">");
 
