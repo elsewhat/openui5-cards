@@ -21,16 +21,11 @@ h1.cardTitle1 {
 }
 
 /*Attempting to improve performance*/
-body{
-    background-image:none;
+.sapMNav{
+    overflow:visible;
 }
-
-.sapMGlobalBackgroundColor{
-    background-image:none;       
-}
-
-.sapMGlobalBackgroundImage{
-    background-image:none;
+.sapMPageScroll{
+    overflow:visible;
 }
 </style>
 
@@ -128,7 +123,7 @@ cardContainer.bindAggregation("cards","/items", cardFactory);
 var app = new sap.m.App({initialPage:"openui5-cards"});
 app.placeAt("content");
 
-var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards", showHeader:false, showFooter:false});
+var pageContent = new sap.m.Page("openui5-cards",{title:"Google+ OpenUI5-Cards", showHeader:false, showFooter:false, enableScrolling:false});
 pageContent.addContent(cardContainer);
 app.addPage(pageContent);
 </script>
