@@ -19,11 +19,12 @@ main.cardContainer {
   transform:scale(.75);
   transform-origin:center 3rem;
   transition:transform .3s;
+  z-index:0;
 }
 
 header.cardHeader {
   position:absolute;
-  z-index:0;
+  z-index:2;
   top:0; left:0; right:0;
   height:10rem;
   transition:transform .5s, opacity .3s;
@@ -36,7 +37,7 @@ header.cardHeader {
 
 .cardSearch > input  {
   position:relative;
-  z-index:2;
+  z-index:3;
   display:block;
   margin:0em 0em 5.5em 1em;
   border:0;
